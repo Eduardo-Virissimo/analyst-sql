@@ -1,14 +1,22 @@
 {
   "name": "analyst-sql",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "db:up": "docker compose up -d --wait",
+    "db:down": "docker compose down",
+    "db:reset": "docker compose down -v && docker compose up -d --wait",
+    "typecheck": "tsc --noEmit",
+    "test:validator": "node --import tsx src/lib/sql-validator.test.ts",
+    "test:llm": "node --env-file=.env.local --import tsx src/scripts/test-llm.ts",
+    "evaluate": "node --env-file=.env.local --import tsx src/scripts/evaluate.ts"
   },
   "dependencies": {
+    "mysql2": "^3.24.6",
     "next": "16.4.5",
     "react": "19.3.0",
     "react-dom": "19.3.0"
@@ -21,6 +29,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.4.5",
     "tailwindcss": "^4",
+    "tsx": "^4.23.15",
     "typescript": "^5"
   }
 }
