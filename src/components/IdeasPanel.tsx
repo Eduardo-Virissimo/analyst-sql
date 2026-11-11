@@ -123,9 +123,9 @@ export default function IdeasPanel({ open, onOpenChange, onAsk, disabled }: Idea
             type="button"
             disabled={disabled}
             onClick={surprise}
-            className="press inline-flex min-h-10 items-center gap-2 rounded-pill bg-brand px-4 text-sm font-medium text-on-accent hover:brightness-110 disabled:opacity-50"
+            className="press group inline-flex min-h-10 items-center gap-2 rounded-pill border border-brand/60 bg-brand-strong/25 px-4 text-sm font-medium text-accent shadow-[0_0_20px_rgb(106_44_255/0.35)] transition hover:border-accent hover:bg-brand-strong/45 hover:text-ink disabled:opacity-50"
           >
-            <ShuffleIcon className="size-4" />
+            <ShuffleIcon className="size-4 transition-transform duration-300 group-hover:rotate-180" />
             <span className="hidden sm:inline">Me surpreenda</span>
           </button>
         }
