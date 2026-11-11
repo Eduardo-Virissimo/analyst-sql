@@ -1,0 +1,22 @@
+# Roda a cada push e pull request: tipos, estilo, testes e build.
+# Os testes não precisam de banco, IA nem rede (use `npm run evaluate` à parte para medir a taxa de acerto).
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build

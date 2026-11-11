@@ -2,6 +2,9 @@
   "name": "analyst-sql",
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -11,9 +14,9 @@
     "db:down": "docker compose down",
     "db:reset": "docker compose down -v && docker compose up -d --wait",
     "typecheck": "tsc --noEmit",
-    "test:validator": "node --import tsx src/lib/sql-validator.test.ts",
-    "test:llm": "node --env-file=.env.local --import tsx src/scripts/test-llm.ts",
-    "evaluate": "node --env-file=.env.local --import tsx src/scripts/evaluate.ts"
+    "check:llm": "node --env-file=.env.local --import tsx src/scripts/check-llm.ts",
+    "evaluate": "node --env-file=.env.local --import tsx src/scripts/evaluate.ts",
+    "test": "node --import tsx --test \"src/**/*.test.ts\""
   },
   "dependencies": {
     "mysql2": "^3.24.6",
