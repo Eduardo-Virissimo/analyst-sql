@@ -177,6 +177,18 @@ body::after {
     outline-offset: 2px;
     border-radius: var(--r-control);
   }
+
+  /* o Tailwind 4 tira a "mãozinha" dos botões: devolve para tudo que é clicável */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  summary,
+  label[for],
+  select {
+    cursor: pointer;
+  }
+  button:disabled {
+    cursor: not-allowed;
+  }
 }
 
 ::selection {
