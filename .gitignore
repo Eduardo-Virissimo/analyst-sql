@@ -44,3 +44,9 @@ next-env.d.ts
 logs/*.jsonl
 eval/results.json
 !.env.example
+
+# perfis temporários de verificação visual
+.taste-skill/
+
+# grafo gerado pelo /graphify (regenere com: graphify update .)
+graphify-out/

@@ -16,6 +16,7 @@ export interface AgentResult {
   durationMs: number;
 }
 
+/** Uma pergunta na tela: carregando, respondida ou com erro. */
 export type Conversation =
   | { id: string; question: string; status: "loading" }
   | { id: string; question: string; status: "done"; result: AgentResult }

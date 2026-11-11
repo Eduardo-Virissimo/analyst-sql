@@ -1,3 +1,6 @@
+-- o cliente do init do Docker usa latin1 por padrão; sem isto os acentos são gravados duplamente codificados
+SET NAMES utf8mb4;
+
 DROP DATABASE IF EXISTS hr_agent;
 CREATE DATABASE hr_agent CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE hr_agent;
@@ -124,7 +127,7 @@ INSERT INTO employments (id, employee_id, type, start_date, end_date, weekly_hou
 
 -- SOMENTE LEITURA usado pelo agente.
 
-DROP USER IF EXISTS 'agent_readonly'@'localhost';
-CREATE USER 'agent_readonly'@'localhost' IDENTIFIED BY 'change_this_password';
-GRANT SELECT ON hr_agent.* TO 'agent_readonly'@'localhost';
+DROP USER IF EXISTS 'agent_readonly'@'%';
+CREATE USER 'agent_readonly'@'%' IDENTIFIED BY 'change_this_password';
+GRANT SELECT ON hr_agent.* TO 'agent_readonly'@'%';
 FLUSH PRIVILEGES;
