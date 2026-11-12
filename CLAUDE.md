@@ -22,8 +22,8 @@ Next.js 16 + React 19 + TypeScript + Tailwind 4. Projeto do programa Futures (So
 | `src/lib/llm/client.ts` | Cliente da IA (Anthropic ou OpenAI-compatível/Gemini) |
 | `src/lib/http/` | Rate limit, conferência da requisição, erro → status HTTP |
 | `src/lib/ui/`, `src/hooks/` | Lógica da tela que não é desenho (friendly, chart, sql-highlight, ask-client) |
-| `src/app/api/` | `POST /api/ask` e `GET /api/schema` |
-| `src/components/` | A tela (`Greeting`, `Turn`, `Composer`, `ResultPanel` `QuickActions` (Perguntas prontas e Ajuda, sob o campo de pergunta) e `Header` (Dados e Sobre); os quatro painéis usam `HeaderPanel`) |
+| `src/app/api/` | `POST /api/ask` (responde aos poucos, uma linha JSON por etapa do agente e o resultado no fim) e `GET /api/schema` |
+| `src/components/` | A tela (`Greeting`, `Turn`, `Composer`, `ResultPanel`, `QuickActions` (Perguntas prontas e Ajuda, sob o campo de pergunta) e `Header` (Dados e Sobre); as quatro janelas usam `Modal` e as perguntas clicáveis usam `QuestionRow`) |
 | `src/scripts/`, `eval/` | `evaluate.ts` + `questions.json` (taxa de acerto), `check-llm.ts` |
 | `db/setup.sql`, `compose.yaml` | Banco de exemplo e usuário `agent_readonly` |
 
@@ -56,6 +56,9 @@ npm run evaluate     # taxa de acerto real (gasta chamadas da IA)
 - Interface: chat enxuto, tema escuro, gradiente `#0A0A0A → #0D081F → #2B0F6B`. Cores da marca: `#6A2CFF`, `#B36BFF` (só
   preenchimentos) e `#E0B3FF` (texto em destaque). Tudo em `globals.css`. Mexeu numa cor? Confira o contraste (AA, 4,5:1).
   A página não rola; só a área de mensagens rola.
+- **Espaço e raio: leia `docs/DESIGN.md` antes de mexer na tela.** Regra de 8: todo espaço e tamanho é
+  múltiplo de 8 (4 só como meio passo em peças pequenas). Raios só `rounded-control` (8), `rounded-card` (16)
+  e `rounded-pill`. Nada de `1.5`, `2.5`, `3`, `3.5`, `5` nem `[13px]`.
 
 ## Grafo de conhecimento (graphify)
 

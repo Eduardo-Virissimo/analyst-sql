@@ -7,7 +7,27 @@ precisar saber SQL.
 Projeto do programa Futures (Softplan). Feito com Next.js, React, TypeScript, Tailwind e MySQL, e uma IA (Gemini ou Claude)
 para escrever as buscas.
 
-![Tela inicial](docs/img/home.png)
+![Tela inicial: o campo de pergunta, os botões Perguntas prontas e Ajuda e três exemplos para começar](docs/img/home.png)
+
+## O que aparece na tela
+
+Enquanto trabalha, o assistente mostra **em que etapa está** (escrevendo a busca, conferindo se é segura, consultando os
+dados, escrevendo a resposta). Se a primeira busca falhar e ele precisar corrigir, isso também aparece.
+
+![Andamento da resposta, etapa por etapa](docs/img/progresso.png)
+
+A resposta vem em português, com o resultado em três abas: **Gráfico**, **Tabela** e **Busca (SQL)**, a busca exata que
+rodou no banco, para quem quiser conferir. Embaixo fica quanto tempo levou.
+
+![Resposta com gráfico de barras dos colaboradores por setor](docs/img/resultado.png)
+
+O botão **Dados de RH**, no cabeçalho, abre um mapa do que dá para consultar: cada assunto, suas informações e como
+eles se ligam, em linguagem simples (os nomes técnicos ficam num trecho recolhido, para quem conhece bancos de dados).
+
+![Janela Dados de RH com os três assuntos e suas ligações](docs/img/dados.png)
+
+Também há **Perguntas prontas** (exemplos por assunto, para clicar), **Ajuda** (como perguntar bem, o que ele não faz e
+as palavras que aparecem na tela), **Sobre** (o que é, para que serve e como usar com segurança) e **Nova conversa**.
 
 ## Como funciona
 
@@ -23,6 +43,11 @@ pergunta ─► IA escreve o SQL ─► validador confere ─► MySQL (só leit
 4. O **validador** garante que é só uma consulta de leitura. Se não for, a busca é bloqueada.
 5. A busca roda no banco com um usuário que **só pode ler**. Se der erro, o erro volta para a IA corrigir.
 6. A IA explica o resultado em português simples e a tela mostra o texto, a tabela, o gráfico e a busca usada.
+
+A rota `POST /api/ask` não espera tudo terminar para responder: ela envia **uma linha JSON por etapa**
+(`{"progress": {"step": "writing", "attempt": 1}}`, depois `checking`, `running`, `explaining`) e, no fim,
+`{"result": ...}` ou `{"error": "..."}`. É isso que permite à tela mostrar o andamento. O agente avisa cada etapa pela
+opção `onStep` de `answerQuestion`.
 
 ## Rodando na sua máquina
 
@@ -52,9 +77,10 @@ npm run dev                    # abre em http://localhost:3000
 | `src/lib/sql/validator.ts` | O validador: só deixa passar consultas de leitura |
 | `src/lib/db/` | Conexão com o MySQL, execução das buscas e leitura da estrutura do banco |
 | `src/lib/llm/client.ts` | Fala com a IA (Gemini ou Claude), com tempo limite e novas tentativas |
-| `src/app/api/` | `POST /api/ask` (a pergunta) e `GET /api/schema` (o que dá para consultar) |
-| `src/app/page.tsx`, `src/components/` | A tela: boas-vindas, conversa, resultado (gráfico, tabela, busca) e os painéis: Dados e Sobre no cabeçalho; Perguntas prontas e Ajuda sob o campo de pergunta |
-| `src/lib/ui/`, `src/hooks/` | Lógica da tela que não é desenho (testável) |
+| `src/app/api/` | `POST /api/ask` (a pergunta; responde aos poucos, mostrando cada etapa) e `GET /api/schema` (o que dá para consultar) |
+| `src/app/page.tsx`, `src/components/` | A tela: boas-vindas, conversa, andamento, resultado (gráfico, tabela, busca) e as janelas (`Modal`): Dados e Sobre no cabeçalho; Perguntas prontas e Ajuda sob o campo de pergunta |
+| `src/lib/ui/`, `src/hooks/` | Lógica da tela que não é desenho (testável): textos amigáveis e nomes das etapas, gráfico, leitura da resposta aos poucos |
+| `docs/DESIGN.md` | As regras visuais: espaços em múltiplos de 8, três raios de canto, cores e contraste |
 | `eval/questions.json`, `src/scripts/evaluate.ts` | As 47 perguntas com resposta certa e o script que mede o acerto |
 | `db/setup.sql`, `compose.yaml` | O banco de exemplo (RH de uma instituição) e o usuário só de leitura |
 
@@ -73,6 +99,14 @@ Por isso há **camadas independentes**: se uma falhar, as outras seguram.
 5. **Borda da API:** confere a origem, o formato e o tamanho; limita 10 perguntas por minuto; nunca devolve o erro técnico.
 
 Detalhes e limitações em [docs/SECURITY.md](docs/SECURITY.md).
+
+## Documentação
+
+| Arquivo | Assunto |
+|---|---|
+| [docs/SECURITY.md](docs/SECURITY.md) | As camadas de segurança, o que cada uma bloqueia e o que fica de fora |
+| [docs/DESIGN.md](docs/DESIGN.md) | Regras da tela (espaço, raio, cores). Leia antes de mexer nos componentes |
+| [CLAUDE.md](CLAUDE.md) / [AGENTS.md](AGENTS.md) | Orientações para quem programa com ajuda de IA neste projeto |
 
 ## Testes e taxa de acerto
 
