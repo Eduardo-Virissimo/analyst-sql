@@ -24,11 +24,11 @@ export default function PanelButton({ icon: Icon, label, badge, open, controls, 
       aria-expanded={open}
       aria-controls={controls}
       aria-label={label}
-      className={`press inline-flex min-h-10 items-center gap-2 whitespace-nowrap rounded-pill border px-3 text-sm hover:border-brand/50 hover:text-ink sm:px-3.5 ${open ? "border-brand/60 bg-surface-2 text-ink" : "border-line bg-surface text-muted"}`}
+      className={`press inline-flex min-h-10 items-center gap-2 whitespace-nowrap rounded-pill border px-4 text-sm hover:border-brand/50 hover:text-ink ${open ? "border-brand/60 bg-surface-2 text-ink" : "border-line bg-surface text-muted"}`}
     >
       <Icon className="size-4 text-accent" />
       <span className={labelOnMobile ? "" : "hidden sm:inline"}>{label}</span>
-      {badge && <span className="hidden rounded-pill bg-surface-2 px-2 py-0.5 text-xs lg:inline">{badge}</span>}
+      {badge && <span className="hidden rounded-pill bg-surface-2 px-2 py-1 text-xs leading-none lg:inline">{badge}</span>}
     </button>
   );
 }

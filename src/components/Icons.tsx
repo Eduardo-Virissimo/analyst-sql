@@ -166,3 +166,68 @@ export const ArrowRightIcon = (props: IconProps) => (
     <path d="M5 12h14M13 6.5L18.5 12 13 17.5" />
   </svg>
 );
+
+export const KeyIcon = (props: IconProps) => (
+  <svg {...base} {...props}>
+    <circle cx="8" cy="15" r="4" />
+    <path d="M11 12l8.5-8.5M16 7l2.5 2.5M13.5 9.5L15 11" />
+  </svg>
+);
+
+export const LinkIcon = (props: IconProps) => (
+  <svg {...base} {...props}>
+    <path d="M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1" />
+    <path d="M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1" />
+  </svg>
+);
+
+export const TextIcon = (props: IconProps) => (
+  <svg {...base} {...props}>
+    <path d="M5 7V5h14v2M12 5v14M9 19h6" />
+  </svg>
+);
+
+export const HashIcon = (props: IconProps) => (
+  <svg {...base} {...props}>
+    <path d="M5 9h14M5 15h14M10 4L8 20M16 4l-2 16" />
+  </svg>
+);
+
+export const CalendarIcon = (props: IconProps) => (
+  <svg {...base} {...props}>
+    <rect x="4" y="5.5" width="16" height="14.5" rx="2" />
+    <path d="M4 10h16M8.5 3.5v4M15.5 3.5v4" />
+  </svg>
+);
+
+export const ListIcon = (props: IconProps) => (
+  <svg {...base} {...props}>
+    <path d="M9 7h11M9 12h11M9 17h11" />
+    <path d="M4.5 7h.01M4.5 12h.01M4.5 17h.01" />
+  </svg>
+);
+
+export const TableIcon = (props: IconProps) => (
+  <svg {...base} {...props}>
+    <rect x="4" y="5" width="16" height="14" rx="2" />
+    <path d="M4 10h16M4 14.5h16M10 10v9" />
+  </svg>
+);
+
+/** Um ícone dentro de um quadradinho: marca visual de uma linha, de um cartão ou de uma legenda. */
+export function IconTile({
+  icon: Icon,
+  tone = "bg-surface-2 text-accent",
+  size = "size-8",
+}: {
+  icon: (props: IconProps) => React.ReactElement;
+  /** cores do fundo e do traço */
+  tone?: string;
+  size?: string;
+}) {
+  return (
+    <span className={`inline-flex shrink-0 items-center justify-center rounded-control ${size} ${tone}`} aria-hidden="true">
+      <Icon className="size-4" />
+    </span>
+  );
+}
