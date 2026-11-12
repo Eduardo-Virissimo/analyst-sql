@@ -1,6 +1,7 @@
 // Traduz o jeito técnico do banco para o jeito de falar de quem não é da área.
 // Só apresentação: nada aqui muda os dados nem o que o agente faz.
 import type { SchemaColumn, SchemaTable } from "@/lib/db/schema";
+import type { AgentStep } from "@/lib/types";
 
 /** int -> "número", varchar -> "texto", date -> "data"... */
 export function friendlyType(type: string): string {
@@ -133,16 +134,33 @@ export function columnDetail(column: Pick<SchemaColumn, "name" | "comment" | "ty
   return rest.replace(/\bNULL\b/g, "vazia");
 }
 
-/** A marquinha que mostra o tipo de uma informação, como num diagrama: texto "Aa", número "123", data "dd/mm"... */
-export function typeMark(type: string): string {
-  const marks: Record<string, string> = {
-    texto: "Aa",
-    número: "123",
-    data: "dd/mm",
-    "data e hora": "dd/mm",
-    hora: "hh:mm",
-    "uma opção": "A | B",
-    "sim ou não": "S/N",
+/** O nome de uma coluna do resultado, legível: "total_colaboradores" -> "Total colaboradores". */
+export function columnLabel(name: string): string {
+  const plain = name.replaceAll("_", " ").trim();
+  return plain.charAt(0).toUpperCase() + plain.slice(1);
+}
+
+/**
+ * A linha discreta sob o resultado: quanto tempo levou e, se a primeira busca falhou, que o assistente
+ * corrigiu a si mesmo. "Respondido em 2,1 s" ou "Respondido em 5,4 s, na 2ª tentativa (...)".
+ */
+export function answerMeta(durationMs: number, attempts: number): string {
+  const seconds = (durationMs / 1000).toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  const base = `Respondido em ${seconds} s`;
+  if (attempts <= 1) return `${base}.`;
+  return `${base}, na ${attempts}ª tentativa: a primeira busca falhou e o assistente corrigiu sozinho.`;
+}
+
+/** As etapas do trabalho do agente, na ordem em que acontecem. */
+export const STEPS: AgentStep[] = ["writing", "checking", "running", "explaining"];
+
+/** O nome de cada etapa, em português simples. Da 2ª tentativa em diante, conta que a busca está sendo corrigida. */
+export function stepLabel(step: AgentStep, attempt = 1): string {
+  const labels: Record<AgentStep, string> = {
+    writing: attempt > 1 ? `Corrigindo a busca (tentativa ${attempt})` : "Escrevendo a busca (SQL)",
+    checking: "Conferindo se a busca é segura",
+    running: "Consultando os dados, sem alterar nada",
+    explaining: "Escrevendo a resposta",
   };
-  return marks[friendlyType(type)] ?? "···";
+  return labels[step];
 }
