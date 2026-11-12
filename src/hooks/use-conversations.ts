@@ -19,7 +19,10 @@ export function useConversations() {
       setConversations((list) => list.map((c) => (c.id === id ? next : c)));
 
     try {
-      const result = await askAgent(question);
+      // enquanto espera, guarda em que etapa o agente está (a tela mostra)
+      const result = await askAgent(question, fetch, (progress) =>
+        replace({ id, question, status: "loading", progress }),
+      );
       replace({ id, question, status: "done", result });
     } catch (err) {
       const error = err instanceof Error ? err.message : "Erro desconhecido.";

@@ -11,18 +11,19 @@
    ok 4,6 · warn 4,6 · danger-ink 4,7. A cor de marca #B36BFF só serve de preenchimento (botão, barras):
    como texto ela não passa do AA. */
 :root {
-  /* escala de espaço 4/8/12/16/24: são o p-1/2/3/4/6 do Tailwind */
+  /* Espaço: regra de 8 (veja docs/DESIGN.md). Tudo é múltiplo de 8; 4 é só meio passo
+     dentro de peças pequenas (ícone ao lado do texto, selo). São o p-1/2/4/6/8/12 do Tailwind. */
   --space-1: 4px;
   --space-2: 8px;
-  --space-3: 12px;
   --space-4: 16px;
   --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
 
-  /* raios */
-  --r-control: 12px; /* botões, abas, blocos de código, campos pequenos */
-  --r-card: 16px; /* cartões, tabela, painéis */
-  --r-sheet: 24px; /* campo de pergunta, bolha do usuário */
-  --r-pill: 999px;
+  /* Raios: só três. Peça dentro de peça usa o raio de fora menos o espaço entre as duas. */
+  --r-control: 8px; /* botões quadrados, abas, blocos de código, chips */
+  --r-card: 16px; /* cartões, tabela, painéis, janela, campo de pergunta, bolha */
+  --r-pill: 999px; /* botões redondos e selos */
 
   /* sombras */
   --sh-card: inset 0 1px 0 rgb(255 255 255 / 0.05), 0 8px 24px -16px rgb(0 0 0 / 0.55);
@@ -66,7 +67,6 @@
 
   --radius-control: var(--r-control);
   --radius-card: var(--r-card);
-  --radius-sheet: var(--r-sheet);
   --radius-pill: var(--r-pill);
 
   --shadow-card: var(--sh-card);
@@ -99,10 +99,13 @@
 /* ───────── O fundo ─────────
    Quatro camadas, de baixo para cima, todas só em CSS/SVG (sem imagem, sem JavaScript):
    1. html:         o degradê de base, do preto (#0A0A0A) ao roxo vivo (#6A2CFF)
-   2. html::before: manchas de cor (#6A2CFF, #B36BFF, #2B0F6B) que derivam bem devagar
-   3. html::after:  uma grade fina, que só aparece nas bordas (o centro, onde está o texto, fica limpo)
-   4. body::before: o desenho: nós ligados como tabelas de um banco, e arcos no canto superior
-   O ruído (body::after) fica por cima de tudo. Com "reduzir movimento" ligado, nada anda. */
+   2. html::before: manchas de cor (#6A2CFF, #B36BFF, #2B0F6B) que derivam devagar
+   3. html::after:  uma luz lilás que atravessa a tela no sentido contrário
+   4. body::before: o desenho: nós ligados como tabelas de um banco, e arcos no canto superior; ele flutua de leve
+   O ruído (body::after) fica por cima de tudo.
+
+   Movimento: leve e lento (cada volta leva de 18 a 30 s), só com transform, que é barato para o navegador.
+   Nada pisca e nada se mexe por causa da rolagem. Com "reduzir movimento" ligado, nada anda. */
 html {
   background:
     radial-gradient(48rem 34rem at 100% 100%, rgb(224 179 255 / 0.28) 0%, rgb(179 107 255 / 0.2) 35%, rgb(179 107 255 / 0) 72%) fixed,
@@ -126,20 +129,20 @@ html::before {
     radial-gradient(34rem 26rem at 12% 18%, rgb(106 44 255 / 0.45), transparent 70%),
     radial-gradient(30rem 24rem at 90% 62%, rgb(179 107 255 / 0.26), transparent 70%),
     radial-gradient(26rem 20rem at 70% 8%, rgb(43 15 107 / 0.9), transparent 70%);
-  animation: drift 32s ease-in-out infinite alternate;
+  animation: drift 22s ease-in-out infinite alternate;
+  will-change: transform;
 }
 
 html::after {
-  inset: 0;
-  background:
-    repeating-linear-gradient(0deg, rgb(224 179 255 / 0.07) 0 1px, transparent 1px 56px),
-    repeating-linear-gradient(90deg, rgb(224 179 255 / 0.07) 0 1px, transparent 1px 56px);
-  -webkit-mask-image: radial-gradient(ellipse 62% 66% at 50% 46%, transparent 0%, #000 100%);
-  mask-image: radial-gradient(ellipse 62% 66% at 50% 46%, transparent 0%, #000 100%);
+  inset: -20%;
+  background: radial-gradient(38rem 30rem at 30% 72%, rgb(179 107 255 / 0.2), transparent 70%);
+  animation: glide 30s ease-in-out infinite alternate;
+  will-change: transform;
 }
 
 body::before {
   inset: 0;
+  animation: float 18s ease-in-out infinite alternate;
   background:
     url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20900%20900'%20fill%3D'none'%3E%3Cg%20stroke%3D'%23E0B3FF'%20stroke-opacity%3D'.16'%3E%3Ccircle%20cx%3D'770'%20cy%3D'770'%20r%3D'130'%2F%3E%3Ccircle%20cx%3D'770'%20cy%3D'770'%20r%3D'250'%2F%3E%3Ccircle%20cx%3D'770'%20cy%3D'770'%20r%3D'380'%2F%3E%3Ccircle%20cx%3D'770'%20cy%3D'770'%20r%3D'520'%2F%3E%3C%2Fg%3E%3Cg%20stroke%3D'%23B36BFF'%20stroke-opacity%3D'.45'%20stroke-width%3D'1.2'%3E%3Cpath%20d%3D'M400%20690%20L560%20600%20L650%20450%20L770%20360'%2F%3E%3Cpath%20d%3D'M560%20600%20L700%20650%20L770%20770'%2F%3E%3Cpath%20d%3D'M650%20450%20L520%20380%20L430%20430'%2F%3E%3Cpath%20d%3D'M700%20650%20L840%20610'%2F%3E%3C%2Fg%3E%3Cg%20fill%3D'%23B36BFF'%3E%3Ccircle%20cx%3D'400'%20cy%3D'690'%20r%3D'5'%20fill-opacity%3D'.7'%2F%3E%3Ccircle%20cx%3D'560'%20cy%3D'600'%20r%3D'7'%20fill-opacity%3D'.8'%2F%3E%3Ccircle%20cx%3D'650'%20cy%3D'450'%20r%3D'6'%20fill-opacity%3D'.7'%2F%3E%3Ccircle%20cx%3D'770'%20cy%3D'360'%20r%3D'4'%20fill-opacity%3D'.6'%2F%3E%3Ccircle%20cx%3D'700'%20cy%3D'650'%20r%3D'5'%20fill-opacity%3D'.7'%2F%3E%3Ccircle%20cx%3D'520'%20cy%3D'380'%20r%3D'4'%20fill-opacity%3D'.6'%2F%3E%3Ccircle%20cx%3D'430'%20cy%3D'430'%20r%3D'3'%20fill-opacity%3D'.6'%2F%3E%3Ccircle%20cx%3D'840'%20cy%3D'610'%20r%3D'4'%20fill-opacity%3D'.6'%2F%3E%3C%2Fg%3E%3Cg%20fill%3D'%23E0B3FF'%3E%3Ccircle%20cx%3D'770'%20cy%3D'770'%20r%3D'9'%20fill-opacity%3D'.85'%2F%3E%3Ccircle%20cx%3D'770'%20cy%3D'770'%20r%3D'22'%20fill-opacity%3D'.12'%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E") right -6% bottom -8% / min(78vmin, 820px) no-repeat,
     url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20500%20500'%20fill%3D'none'%3E%3Cg%20stroke%3D'%23E0B3FF'%20stroke-opacity%3D'.13'%3E%3Ccircle%20cx%3D'0'%20cy%3D'0'%20r%3D'120'%2F%3E%3Ccircle%20cx%3D'0'%20cy%3D'0'%20r%3D'220'%2F%3E%3Ccircle%20cx%3D'0'%20cy%3D'0'%20r%3D'330'%2F%3E%3Ccircle%20cx%3D'0'%20cy%3D'0'%20r%3D'450'%2F%3E%3C%2Fg%3E%3Ccircle%20cx%3D'120'%20cy%3D'0'%20r%3D'4'%20fill%3D'%23B36BFF'%20fill-opacity%3D'.7'%2F%3E%3Ccircle%20cx%3D'0'%20cy%3D'220'%20r%3D'4'%20fill%3D'%23E0B3FF'%20fill-opacity%3D'.7'%2F%3E%3Ccircle%20cx%3D'330'%20cy%3D'0'%20r%3D'3'%20fill%3D'%23B36BFF'%20fill-opacity%3D'.6'%2F%3E%3C%2Fsvg%3E") left -2% top -2% / min(46vmin, 480px) no-repeat;
@@ -152,10 +155,28 @@ body {
 
 @keyframes drift {
   from {
-    transform: translate3d(-2%, -1.5%, 0) scale(1);
+    transform: translate3d(-5%, -3%, 0) scale(1);
   }
   to {
-    transform: translate3d(2%, 2%, 0) scale(1.08);
+    transform: translate3d(5%, 4%, 0) scale(1.15);
+  }
+}
+
+@keyframes glide {
+  from {
+    transform: translate3d(-8%, 6%, 0);
+  }
+  to {
+    transform: translate3d(12%, -8%, 0);
+  }
+}
+
+@keyframes float {
+  from {
+    transform: translate3d(0, -8px, 0);
+  }
+  to {
+    transform: translate3d(0, 8px, 0);
   }
 }
 
@@ -218,7 +239,7 @@ body::after {
 @keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
@@ -235,17 +256,11 @@ body::after {
   }
 }
 
-@keyframes flow {
-  to {
-    stroke-dashoffset: -20;
-  }
-}
-
 @layer components {
-  /* linha tracejada que "corre" entre dois pontos (diagrama de Dados) */
-  .flow-line {
-    stroke-dasharray: 4 6;
-    animation: flow 1.1s linear infinite;
+  /* a área de mensagens some suave em cima e embaixo, em vez de ser cortada seca pelo cabeçalho e pelo campo */
+  .fade-edges {
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
   }
 
   .fade-in {

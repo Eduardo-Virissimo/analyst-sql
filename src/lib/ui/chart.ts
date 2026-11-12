@@ -26,3 +26,16 @@ export function detectChart(rows: Row[]): ChartConfig | null {
   }
   return null;
 }
+
+export interface SingleValue {
+  label: string;
+  value: number;
+}
+
+// uma linha com um número só (ex.: "quantos existem no total?"): vira um número grande, não uma tabela
+export function detectSingleValue(rows: Row[]): SingleValue | null {
+  if (rows.length !== 1) return null;
+  const columns = Object.keys(rows[0]);
+  if (columns.length !== 1 || !isNumeric(rows[0][columns[0]])) return null;
+  return { label: columns[0], value: Number(rows[0][columns[0]]) };
+}

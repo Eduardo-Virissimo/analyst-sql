@@ -45,7 +45,7 @@ export default function Composer({ onSubmit, disabled, autoFocus = false }: Comp
         submit();
       }}
       // borda mais clara + sombra suave; no foco, anel roxo
-      className="rounded-sheet border border-line-strong bg-surface shadow-input transition-[border-color,box-shadow] duration-150 focus-within:border-brand/60 focus-within:shadow-[var(--sh-focus),var(--sh-input)]"
+      className="rounded-card border border-line-strong bg-surface shadow-input transition-[border-color,box-shadow] duration-150 focus-within:border-brand/60 focus-within:shadow-[var(--sh-focus),var(--sh-input)]"
     >
       <label htmlFor="question" className="sr-only">
         Sua pergunta
@@ -60,12 +60,12 @@ export default function Composer({ onSubmit, disabled, autoFocus = false }: Comp
         onChange={(e) => setText(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder="Escreva sua pergunta em português"
-        className="block max-h-[180px] w-full resize-none bg-transparent px-5 pb-2 pt-4 text-base leading-6 text-ink placeholder:text-muted focus:outline-none"
+        className="block max-h-48 w-full resize-none bg-transparent px-4 pb-2 pt-4 text-base leading-6 text-ink placeholder:text-muted focus:outline-none"
       />
-      <div className="flex items-center justify-between pb-3 pl-4 pr-3">
+      <div className="flex items-center justify-between pb-2 pl-4 pr-2">
         <span className="flex items-center gap-2">
           <span className="badge" title="O sistema só consulta os dados. Ele nunca altera, apaga nem cria nada.">
-            <LockIcon className="size-3.5" />
+            <LockIcon className="size-4" />
             Só consulta, não altera dados
           </span>
           {text.length > MAX_LENGTH * 0.9 && (
@@ -79,9 +79,9 @@ export default function Composer({ onSubmit, disabled, autoFocus = false }: Comp
           type="submit"
           disabled={!canSubmit}
           aria-label="Enviar pergunta"
-          className="press inline-flex size-9 items-center justify-center rounded-pill bg-brand text-on-accent hover:brightness-110 disabled:cursor-not-allowed disabled:bg-surface-2 disabled:text-muted disabled:hover:brightness-100"
+          className="press inline-flex size-10 items-center justify-center rounded-pill bg-brand text-on-accent hover:brightness-110 disabled:cursor-not-allowed disabled:bg-surface-2 disabled:text-muted disabled:hover:brightness-100"
         >
-          <ArrowUpIcon className="size-[18px]" />
+          <ArrowUpIcon className="size-5" />
         </button>
       </div>
     </form>

@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import {
+  answerMeta,
+  columnLabel,
   columnDetail,
   columnText,
   databaseLabel,
@@ -8,10 +10,10 @@ import {
   friendlyType,
   orderBySubject,
   shortColumnText,
+  stepLabel,
   subjectText,
   subjectsLabel,
   tableText,
-  typeMark,
 } from "@/lib/ui/friendly";
 
 describe("friendlyType", () => {
@@ -142,12 +144,28 @@ describe("subjectText", () => {
   });
 });
 
-describe("typeMark", () => {
-  it("dá uma marquinha para cada tipo", () => {
-    assert.equal(typeMark("varchar(100)"), "Aa");
-    assert.equal(typeMark("int"), "123");
-    assert.equal(typeMark("date"), "dd/mm");
-    assert.equal(typeMark("enum('a','b')"), "A | B");
-    assert.equal(typeMark("geometry"), "···");
+describe("columnLabel", () => {
+  it("troca o sublinhado por espaço e começa com maiúscula", () => {
+    assert.equal(columnLabel("total_colaboradores"), "Total colaboradores");
+    assert.equal(columnLabel("setor"), "Setor");
+  });
+});
+
+describe("answerMeta", () => {
+  it("uma tentativa: só o tempo", () => {
+    assert.equal(answerMeta(2140, 1), "Respondido em 2,1 s.");
+  });
+  it("mais de uma tentativa: conta que o assistente se corrigiu", () => {
+    assert.match(answerMeta(5400, 2), /^Respondido em 5,4 s, na 2ª tentativa/);
+  });
+});
+
+describe("stepLabel", () => {
+  it("nomeia as etapas em português", () => {
+    assert.equal(stepLabel("checking"), "Conferindo se a busca é segura");
+    assert.equal(stepLabel("writing"), "Escrevendo a busca (SQL)");
+  });
+  it("da 2ª tentativa em diante, diz que está corrigindo", () => {
+    assert.equal(stepLabel("writing", 2), "Corrigindo a busca (tentativa 2)");
   });
 });

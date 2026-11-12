@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { isNumeric } from "@/lib/ui/chart";
+import { columnLabel } from "@/lib/ui/friendly";
 import type { Row } from "@/lib/types";
 
 function formatValue(value: unknown): ReactNode {
@@ -23,7 +24,7 @@ export default function ResultTable({ rows }: { rows: Row[] }) {
   );
 
   return (
-    <div className="scrollbar -mx-4 -mb-4 max-h-96 overflow-auto">
+    <div className="scrollbar -mx-4 -mb-4 max-h-96 overflow-auto border-t border-line">
       <table className="w-full border-collapse text-sm">
         <thead className="sticky top-0 bg-popover">
           <tr>
@@ -31,9 +32,9 @@ export default function ResultTable({ rows }: { rows: Row[] }) {
               <th
                 key={column}
                 scope="col"
-                className={`border-b border-line px-4 py-2.5 text-xs font-medium text-muted ${numericColumns.has(column) ? "text-right" : "text-left"}`}
+                className={`border-b border-line px-4 py-2 text-xs font-medium text-muted ${numericColumns.has(column) ? "text-right" : "text-left"}`}
               >
-                {column.replaceAll("_", " ")}
+                {columnLabel(column)}
               </th>
             ))}
           </tr>
@@ -44,7 +45,7 @@ export default function ResultTable({ rows }: { rows: Row[] }) {
               {columns.map((column) => (
                 <td
                   key={column}
-                  className={`px-4 py-2.5 ${numericColumns.has(column) ? "text-right tabular-nums" : ""}`}
+                  className={`px-4 py-2 ${numericColumns.has(column) ? "text-right tabular-nums" : ""}`}
                 >
                   {formatValue(row[column])}
                 </td>

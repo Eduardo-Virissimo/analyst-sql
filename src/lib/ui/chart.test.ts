@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { detectChart, isNumeric } from "@/lib/ui/chart";
+import { detectChart, detectSingleValue, isNumeric } from "@/lib/ui/chart";
 
 describe("detectChart", () => {
   it("texto + número vira gráfico", () => {
@@ -35,5 +35,17 @@ describe("detectChart", () => {
     assert.equal(isNumeric(""), false);
     assert.equal(isNumeric(null), false);
     assert.equal(isNumeric("abc"), false);
+  });
+});
+
+describe("detectSingleValue", () => {
+  it("uma linha com um número vira número grande", () => {
+    assert.deepEqual(detectSingleValue([{ total: "40" }]), { label: "total", value: 40 });
+  });
+  it("texto, várias colunas ou várias linhas não viram", () => {
+    assert.equal(detectSingleValue([{ nome: "Ana" }]), null);
+    assert.equal(detectSingleValue([{ setor: "TI", total: 1 }]), null);
+    assert.equal(detectSingleValue([{ total: 1 }, { total: 2 }]), null);
+    assert.equal(detectSingleValue([]), null);
   });
 });
