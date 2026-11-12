@@ -41,12 +41,10 @@ export default function HomePage() {
         schema={schema}
         panel={panel}
         onPanelChange={setPanel}
-        onAsk={ask}
-        asking={isLoading}
         onReset={started ? clear : undefined}
       />
 
-      <main id="conteudo" className="scrollbar min-h-0 flex-1 overflow-y-auto">
+      <main id="conteudo" className={`scrollbar min-h-0 flex-1 overflow-y-auto ${started ? "fade-edges" : ""}`}>
         {!started ? (
           <Greeting onSubmit={ask} disabled={isLoading} actions={actions} />
         ) : (
@@ -57,6 +55,7 @@ export default function HomePage() {
                 id={`turn-${i + 1}`}
                 conversation={conversation}
                 onOpenDatabase={() => setPanel("db")}
+                onRetry={isLoading ? undefined : () => ask(conversation.question)}
               />
             ))}
           </div>
@@ -65,7 +64,7 @@ export default function HomePage() {
 
       {started && (
         <div className="shrink-0">
-          <div className="mx-auto w-full max-w-3xl px-4 pb-3 pt-1">
+          <div className="mx-auto w-full max-w-3xl px-4 pb-4 pt-1">
             <Composer onSubmit={ask} disabled={isLoading} autoFocus />
             {actions}
             <p className="mt-2 text-center text-xs text-muted">

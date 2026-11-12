@@ -30,7 +30,7 @@ export default function SqlBlock({ sql }: { sql: string }) {
 
   return (
     <div className="relative">
-      <pre className="scrollbar overflow-x-auto rounded-control bg-sunken p-4 pr-12 font-mono text-[13px] leading-6">
+      <pre className="scrollbar overflow-x-auto rounded-control bg-sunken p-4 pr-12 font-mono text-sm leading-6">
         <code>
           {tokens.map((token, i) => (
             <span key={i} className={KIND_CLASS[token.kind]}>
