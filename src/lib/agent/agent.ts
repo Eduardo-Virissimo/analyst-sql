@@ -9,7 +9,7 @@ import { AgentError, isDbConnectionError, sanitizeDbError } from "@/lib/agent/er
 import { ANSWER_SYSTEM_PROMPT, NO_ANSWER, SQL_SYSTEM_PROMPT } from "@/lib/agent/prompts";
 import { askLLM } from "@/lib/llm/client";
 import { validateSql } from "@/lib/sql/validator";
-import type { AgentResult, Attempt, Row } from "@/lib/types";
+import type { AgentProgress, AgentResult, Attempt, Row } from "@/lib/types";
 
 export const MAX_ATTEMPTS = 3;
 
@@ -55,11 +55,13 @@ const defaultDeps: AgentDeps = {
 interface AnswerOptions {
   /** false pula a explicação em português (a avaliação usa isso para economizar) */
   explain?: boolean;
+  /** avisado a cada etapa (escrever, conferir, consultar, explicar), para a tela mostrar o andamento */
+  onStep?: (progress: AgentProgress) => void;
 }
 
 export async function answerQuestion(
   question: string,
-  { explain = true }: AnswerOptions = {},
+  { explain = true, onStep }: AnswerOptions = {},
   deps: AgentDeps = defaultDeps,
 ): Promise<AgentResult> {
   const startedAt = Date.now();
@@ -73,6 +75,7 @@ export async function answerQuestion(
 
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
     // 1) a IA gera o SQL
+    onStep?.({ step: "writing", attempt });
     const llmOutput = await deps.askLLM(SQL_SYSTEM_PROMPT, prompt);
     const sql = extractSql(llmOutput);
 
@@ -87,6 +90,7 @@ export async function answerQuestion(
     }
 
     // 2) o validador confere se é seguro
+    onStep?.({ step: "checking", attempt });
     const validation = validateSql(sql, { allowedTables });
     if (!validation.valid) {
       attempts.push({
@@ -99,6 +103,7 @@ export async function answerQuestion(
     }
 
     // 3) executa no banco (usuário somente leitura)
+    onStep?.({ step: "running", attempt });
     try {
       rows = await deps.runQuery(validation.safeSql);
       finalSql = validation.safeSql;
@@ -123,6 +128,7 @@ export async function answerQuestion(
     answer =
       "Não posso responder isso. Ou os dados disponíveis não têm essa informação, ou o pedido envolve alterar dados, e eu só faço consultas de leitura.";
   } else if (explain) {
+    onStep?.({ step: "explaining", attempt: attempts.length });
     const sample = JSON.stringify(rows.slice(0, 50));
     answer = await deps.askLLM(
       ANSWER_SYSTEM_PROMPT,

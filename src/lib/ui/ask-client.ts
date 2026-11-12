@@ -1,8 +1,13 @@
-// Cliente da API no navegador: envia a pergunta e devolve o resultado.
+// Cliente da API no navegador: envia a pergunta, acompanha o andamento e devolve o resultado.
+// A API responde aos poucos, uma linha JSON por vez: { progress }, e no fim { result } ou { error }.
 // Fica fora do componente para ser testado com um fetch falso.
-import type { AgentResult } from "@/lib/types";
+import type { AgentProgress, AgentResult, AskEvent } from "@/lib/types";
 
-export async function askAgent(question: string, fetcher: typeof fetch = fetch): Promise<AgentResult> {
+export async function askAgent(
+  question: string,
+  fetcher: typeof fetch = fetch,
+  onProgress?: (progress: AgentProgress) => void,
+): Promise<AgentResult> {
   const response = await fetcher("/api/ask", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -22,5 +27,30 @@ export async function askAgent(question: string, fetcher: typeof fetch = fetch):
     );
   }
 
-  return (await response.json()) as AgentResult;
+  // lê linha por linha, conforme chegam
+  const reader = response.body?.getReader();
+  const decoder = new TextDecoder();
+  let pending = "";
+  let result: AgentResult | null = null;
+
+  const handle = (line: string) => {
+    if (!line.trim()) return;
+    const event = JSON.parse(line) as AskEvent;
+    if ("progress" in event) onProgress?.(event.progress);
+    if ("error" in event) throw new Error(event.error);
+    if ("result" in event) result = event.result;
+  };
+
+  while (reader) {
+    const { value, done } = await reader.read();
+    if (done) break;
+    pending += decoder.decode(value, { stream: true });
+    const lines = pending.split("\n");
+    pending = lines.pop() ?? "";
+    lines.forEach(handle);
+  }
+  handle(pending);
+
+  if (!result) throw new Error("A resposta chegou incompleta. Tente de novo.");
+  return result;
 }

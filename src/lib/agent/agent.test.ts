@@ -162,3 +162,18 @@ describe("ciclo do agente", () => {
     assert.equal(prompts[0].match(/<\/pergunta>/g)?.length, 1);
   });
 });
+
+describe("andamento (onStep)", () => {
+  it("avisa cada etapa, na ordem, e conta a tentativa quando a busca é corrigida", async () => {
+    const { deps } = makeDeps({
+      llm: [
+        "```sql\nDELETE FROM employees\n```",
+        "```sql\nSELECT COUNT(*) AS total FROM employees\n```",
+        "Há 6 pessoas.",
+      ],
+    });
+    const steps: string[] = [];
+    await answerQuestion("Quantas pessoas?", { onStep: (p) => steps.push(`${p.step}:${p.attempt}`) }, deps);
+    assert.deepEqual(steps, ["writing:1", "checking:1", "writing:2", "checking:2", "running:2", "explaining:2"]);
+  });
+});
