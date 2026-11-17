@@ -3,9 +3,8 @@
 // A ajuda, em português simples: de um lado o que funciona bem (com um visto), do outro o que o assistente
 // não faz (com um x), e embaixo o significado das poucas palavras técnicas que aparecem na tela.
 // (O que é o programa fica em "Sobre".)
-import { CheckIcon, CloseIcon, HelpIcon, IconTile } from "./Icons";
+import { CheckIcon, CloseIcon } from "./Icons";
 import Modal from "./Modal";
-import PanelButton from "./PanelButton";
 
 const DO = [
   "Seja específico: “Quantos estagiários estão ativos?” funciona melhor que “fale dos estagiários”.",
@@ -29,16 +28,12 @@ const TERMS: { term: string; meaning: string }[] = [
   { term: "Registro", meaning: "Cada linha de uma tabela. Por exemplo, uma pessoa ou um contrato." },
 ];
 
-// um cartão com título, ícone e uma lista em que cada item leva a mesma marca (visto ou x)
-function Checklist({ title, items, icon, tone, mark }: { title: string; items: string[]; icon: typeof CheckIcon; tone: string; mark: string }) {
-  const Mark = icon;
+// uma coluna com título e uma lista em que cada item leva a mesma marca (visto ou x), separada por fios
+function Checklist({ title, items, icon: Mark, mark }: { title: string; items: string[]; icon: typeof CheckIcon; mark: string }) {
   return (
-    <section className="card overflow-hidden">
-      <header className="flex items-center gap-4 border-b border-line bg-white/[0.04] px-4 py-2">
-        <IconTile icon={icon} tone={tone} />
-        <h3 className="font-serif text-base">{title}</h3>
-      </header>
-      <ul className="divide-y divide-line/60 px-4">
+    <section className="lg:px-4 lg:first:pl-0 lg:last:pr-0">
+      <h3 className="pb-2 font-display text-lg">{title}</h3>
+      <ul className="divide-y divide-line border-t border-line">
         {items.map((item) => (
           <li key={item} className="flex gap-2 py-2 text-muted">
             <Mark className={`mt-1 size-4 shrink-0 ${mark}`} />
@@ -52,51 +47,35 @@ function Checklist({ title, items, icon, tone, mark }: { title: string; items: s
 
 interface HelpPanelProps {
   open: boolean;
-  onOpenChange: (open: boolean) => void;
+  onClose: () => void;
 }
 
-export default function HelpPanel({ open, onOpenChange }: HelpPanelProps) {
+export default function HelpPanel({ open, onClose }: HelpPanelProps) {
   return (
-    <>
-      <PanelButton
-        icon={HelpIcon}
-        label="Ajuda"
-        open={open}
-        controls="janela-ajuda"
-        onClick={() => onOpenChange(!open)}
-        labelOnMobile
-      />
+    <Modal
+      id="janela-ajuda"
+      open={open}
+      onClose={onClose}
+      size="lg"
+      title="Ajuda"
+      intro="Dicas para perguntar bem e o significado das palavras técnicas."
+    >
+      <div className="grid gap-6 lg:grid-cols-3 lg:items-start lg:gap-0 lg:divide-x lg:divide-line">
+        <Checklist title="Como perguntar bem" items={DO} icon={CheckIcon} mark="text-ok" />
+        <Checklist title="O que ele não faz" items={DONT} icon={CloseIcon} mark="text-danger" />
 
-      <Modal
-        id="janela-ajuda"
-        open={open}
-        onClose={() => onOpenChange(false)}
-        size="lg"
-        title="Ajuda"
-        intro="Dicas para perguntar bem e o significado das palavras técnicas."
-      >
-        <div className="grid gap-4 lg:grid-cols-3 lg:items-start">
-            <Checklist title="Como perguntar bem" items={DO} icon={CheckIcon} tone="bg-ok/15 text-ok" mark="text-ok" />
-            <Checklist title="O que ele não faz" items={DONT} icon={CloseIcon} tone="bg-danger/15 text-danger-ink" mark="text-danger" />
-
-          <section className="card overflow-hidden">
-            <header className="flex items-center gap-4 border-b border-line bg-white/[0.04] px-4 py-2">
-              <IconTile icon={HelpIcon} tone="bg-brand-strong/40 text-accent" />
-              <h3 className="font-serif text-base">Palavras que você pode ver</h3>
-            </header>
-            <dl className="divide-y divide-line/60 px-4">
-              {TERMS.map((t) => (
-                <div key={t.term} className="space-y-1 py-2">
-                  <dt>
-                    <span className="badge text-ink">{t.term}</span>
-                  </dt>
-                  <dd className="text-muted">{t.meaning}</dd>
-                </div>
-              ))}
-            </dl>
-          </section>
-        </div>
-      </Modal>
-    </>
+        <section className="lg:pl-4">
+          <h3 className="pb-2 font-display text-lg">Palavras que você pode ver</h3>
+          <dl className="divide-y divide-line border-t border-line">
+            {TERMS.map((t) => (
+              <div key={t.term} className="py-2">
+                <dt className="text-ink">{t.term}</dt>
+                <dd className="text-muted">{t.meaning}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      </div>
+    </Modal>
   );
 }

@@ -50,3 +50,11 @@ eval/results.json
 
 # grafo gerado pelo /graphify (regenere com: graphify update .)
 graphify-out/
+
+# impeccable: só o brief da tela, o design.json e a configuração vão para o Git; o resto é rascunho de trabalho
+/.impeccable/review/
+/.impeccable/mocks/
+/.impeccable/questions/
+/.impeccable/build/
+/.impeccable/hook.cache.json
+/.impeccable/config.local.json

@@ -2,76 +2,46 @@
 
 // "Perguntas prontas": um cartão por assunto, lado a lado, com as perguntas dentro. O ícone de cada linha mostra o tipo de
 // resposta que a pergunta traz (gráfico, número ou tabela). Um toque envia; "Escolher uma por mim" sorteia.
-import { ChartIcon, ContractIcon, ExitIcon, HashIcon, IconTile, ShuffleIcon, SparkIcon, TableIcon, UsersIcon } from "./Icons";
+import { ChartIcon, ContractIcon, ExitIcon, HashIcon, ShuffleIcon, TableIcon, UsersIcon } from "./Icons";
 import Modal from "./Modal";
-import PanelButton from "./PanelButton";
 import QuestionRow from "./QuestionRow";
+import { ALL_QUESTIONS, IDEA_GROUPS } from "@/lib/ui/ideas";
 
-const KINDS = {
+export const KINDS = {
   Gráfico: ChartIcon,
   Número: HashIcon,
   Tabela: TableIcon,
 };
 
-const GROUPS: { topic: string; icon: typeof ChartIcon; ideas: { question: string; kind: keyof typeof KINDS }[] }[] = [
-  {
-    topic: "Pessoas e setores",
-    icon: UsersIcon,
-    ideas: [
-      { question: "Quantos colaboradores trabalham em cada setor?", kind: "Gráfico" },
-      { question: "Quantos colaboradores existem no total?", kind: "Número" },
-    ],
-  },
-  {
-    topic: "Contratos",
-    icon: ContractIcon,
-    ideas: [
-      { question: "Quantos vínculos existem de cada tipo?", kind: "Gráfico" },
-      { question: "Quantos vínculos começaram em cada ano?", kind: "Gráfico" },
-      { question: "Quais são os nomes dos estagiários com vínculo ativo?", kind: "Tabela" },
-    ],
-  },
-  {
-    topic: "Saídas",
-    icon: ExitIcon,
-    ideas: [
-      { question: "Quais motivos de encerramento existem e quantas vezes cada um aparece?", kind: "Gráfico" },
-      { question: "Qual o ano com mais encerramentos?", kind: "Tabela" },
-    ],
-  },
-];
+// o ícone de cada assunto (as perguntas ficam em lib/ui/ideas.ts)
+const TOPIC_ICONS: Record<string, typeof ChartIcon> = {
+  "Pessoas e setores": UsersIcon,
+  Contratos: ContractIcon,
+  Saídas: ExitIcon,
+};
 
-const QUESTIONS = GROUPS.flatMap((group) => group.ideas.map((idea) => idea.question));
+const GROUPS = IDEA_GROUPS.map((group) => ({ ...group, icon: TOPIC_ICONS[group.topic] ?? ChartIcon }));
+const QUESTIONS = ALL_QUESTIONS;
 
 interface IdeasPanelProps {
   open: boolean;
-  onOpenChange: (open: boolean) => void;
+  onClose: () => void;
   onAsk: (question: string) => void;
   /** true enquanto uma resposta está a caminho */
   disabled: boolean;
 }
 
-export default function IdeasPanel({ open, onOpenChange, onAsk, disabled }: IdeasPanelProps) {
+export default function IdeasPanel({ open, onClose, onAsk, disabled }: IdeasPanelProps) {
   function ask(question: string) {
-    onOpenChange(false);
+    onClose();
     onAsk(question);
   }
 
   return (
-    <>
-      <PanelButton
-        icon={SparkIcon}
-        label="Perguntas prontas"
-        open={open}
-        controls="janela-perguntas"
-        onClick={() => onOpenChange(!open)}
-        labelOnMobile
-      />
-
       <Modal
         id="janela-perguntas"
         open={open}
-        onClose={() => onOpenChange(false)}
+        onClose={onClose}
         size="lg"
         title="Perguntas prontas"
         intro="Escolha uma e veja a resposta na hora."
@@ -79,9 +49,9 @@ export default function IdeasPanel({ open, onOpenChange, onAsk, disabled }: Idea
           <div className="flex flex-wrap items-center justify-between gap-4">
             {/* a legenda dos ícones das linhas */}
             <ul className="flex flex-wrap items-center gap-4" aria-label="Tipos de resposta">
-              {Object.entries(KINDS).map(([kind, icon]) => (
+              {Object.entries(KINDS).map(([kind, Icon]) => (
                 <li key={kind} className="flex items-center gap-2">
-                  <IconTile icon={icon} size="size-6" />
+                  <Icon className="size-4 text-accent" />
                   {kind}
                 </li>
               ))}
@@ -90,27 +60,25 @@ export default function IdeasPanel({ open, onOpenChange, onAsk, disabled }: Idea
               type="button"
               disabled={disabled}
               onClick={() => ask(QUESTIONS[Math.floor(Math.random() * QUESTIONS.length)])}
-              className="press inline-flex min-h-10 shrink-0 items-center gap-2 rounded-pill border border-line bg-surface px-4 text-sm text-ink hover:border-brand/50 disabled:opacity-50"
+              className="btn-brand press inline-flex min-h-10 shrink-0 items-center gap-2 rounded-pill px-4 text-sm font-semibold disabled:opacity-50"
             >
-              <ShuffleIcon className="size-4 text-accent" />
+              <ShuffleIcon className="size-4" />
               Escolher uma por mim
             </button>
           </div>
         }
       >
-        <div className="grid gap-4 lg:grid-cols-3 lg:items-start">
-          {GROUPS.map(({ topic, icon, ideas }) => (
-            <section key={topic} className="card overflow-hidden" aria-label={topic}>
-              <header className="flex items-center gap-4 border-b border-line bg-white/[0.04] px-4 py-2">
-                <IconTile icon={icon} tone="bg-brand-strong/40 text-accent" />
-                <h3 className="flex-1 font-serif text-base">{topic}</h3>
-                <span className="text-xs text-muted">
-                  {ideas.length} {ideas.length === 1 ? "pergunta" : "perguntas"}
-                </span>
-              </header>
-              <ul className="divide-y divide-line/60 px-2">
+        {/* três assuntos lado a lado, separados por fios; dentro, as perguntas separadas por fios */}
+        <div className="grid gap-6 lg:grid-cols-3 lg:gap-0 lg:divide-x lg:divide-line">
+          {GROUPS.map(({ topic, icon: Icon, ideas }) => (
+            <section key={topic} aria-label={topic} className="lg:px-4 lg:first:pl-0 lg:last:pr-0">
+              <h3 className="flex items-center gap-2 pb-2 font-display text-lg">
+                <Icon className="size-5 text-muted" />
+                {topic}
+              </h3>
+              <ul className="divide-y divide-line border-t border-line">
                 {ideas.map(({ question, kind }) => (
-                  <li key={question} className="py-1">
+                  <li key={question}>
                     <QuestionRow question={question} icon={KINDS[kind]} onAsk={ask} disabled={disabled} />
                   </li>
                 ))}
@@ -119,6 +87,5 @@ export default function IdeasPanel({ open, onOpenChange, onAsk, disabled }: Idea
           ))}
         </div>
       </Modal>
-    </>
   );
 }

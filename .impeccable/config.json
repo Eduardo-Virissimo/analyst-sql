@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "design-system-color",
+        "value": "#000",
+        "createdAt": "2026-11-17T05:15:26.879Z",
+        "reason": "alpha stop inside mask-image (.fade-bottom, .sky::before), not a painted colour"
+      }
+    ]
+  }
+}

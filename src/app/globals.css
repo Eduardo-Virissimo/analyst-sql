@@ -1,18 +1,18 @@
 @import "tailwindcss";
 
 /* ───────── analyst-sql: design tokens ─────────
-   Paleta: #0A0A0A, #0D081F, #2B0F6B, #6A2CFF, #B36BFF e #E0B3FF.
-   Fundo: gradiente que atravessa a paleta, do preto (#0A0A0A) ao roxo vivo (#6A2CFF), com um brilho lilás
-   (#B36BFF / #E0B3FF) no canto. Tema escuro único.
-   Tudo que é cor, raio, espaço, sombra e movimento mora aqui; os componentes só usam estes nomes.
+   O sistema inteiro sai do ícone do gato (docs/img/cat-icon.png):
+   - o quadrado lilás, claro em cima e violeta embaixo, com brilho, é o fundo (tema claro);
+   - a cabeça preta do gato é a "noite" (.night): barra lateral, a bolha da pergunta e o bloco da busca (SQL);
+   - os olhos brancos são as superfícies: cartões e campo de pergunta brancos, com um fio de brilho no alto;
+   - o violeta da base do ícone é a cor de ação (botões com o mesmo degradê brilhante).
+   Cantos macios como os do ícone. Tudo que é cor, raio, sombra e movimento mora aqui.
 
-   Contraste (WCAG AA, 4,5:1) medido no PIOR ponto do gradiente, sob as superfícies:
-   (superfície de 10% branco sobre o ponto mais claro do degradê, ~#5A24D6): ink 5,9 · muted 4,9 · accent 4,6 ·
-   ok 4,6 · warn 4,6 · danger-ink 4,7. A cor de marca #B36BFF só serve de preenchimento (botão, barras):
-   como texto ela não passa do AA. */
+   Contraste (WCAG AA, 4,5:1) no dia, sobre o fundo (#F4EFFF) e o branco: ink 17 / 18 · muted 7,6 / 8,6 ·
+   faint 5,2 / 5,9 · accent 5,4 / 6,1 · ok 4,6 / 5,2 · warn 4,7 / 5,3 · danger-ink 5,6 / 6,4.
+   Na noite (#0E0B14): ink 18 · muted 9,6 · faint 6,3 · accent 10,4. Branco sobre o violeta (#7349F8): 5,0. */
 :root {
-  /* Espaço: regra de 8 (veja docs/DESIGN.md). Tudo é múltiplo de 8; 4 é só meio passo
-     dentro de peças pequenas (ícone ao lado do texto, selo). São o p-1/2/4/6/8/12 do Tailwind. */
+  /* Espaço: regra de 8 (veja docs/DESIGN.md). 4 é só meio passo dentro de peças pequenas. */
   --space-1: 4px;
   --space-2: 8px;
   --space-4: 16px;
@@ -20,49 +20,72 @@
   --space-8: 32px;
   --space-12: 48px;
 
-  /* Raios: só três. Peça dentro de peça usa o raio de fora menos o espaço entre as duas. */
-  --r-control: 8px; /* botões quadrados, abas, blocos de código, chips */
-  --r-card: 16px; /* cartões, tabela, painéis, janela, campo de pergunta, bolha */
-  --r-pill: 999px; /* botões redondos e selos */
+  /* Raios: só três, macios como o ícone. Peça dentro de peça usa o raio de fora menos o espaço entre as duas. */
+  --r-control: 16px;
+  --r-card: 24px;
+  --r-pill: 999px;
 
-  /* sombras */
-  --sh-card: inset 0 1px 0 rgb(255 255 255 / 0.05), 0 8px 24px -16px rgb(0 0 0 / 0.55);
-  --sh-input: inset 0 1px 0 rgb(255 255 255 / 0.06), 0 16px 40px -24px rgb(0 0 0 / 0.65);
-  --sh-pop: 0 24px 60px -20px rgb(0 0 0 / 0.7);
-  --sh-focus: 0 0 0 4px rgb(179 107 255 / 0.22);
+  /* sombras: deslocadas e desfocadas, tingidas de violeta, com um fio branco no alto (o brilho do ícone) */
+  --sh-card: 0 1px 0 rgb(255 255 255 / 0.9) inset, 0 12px 32px -16px rgb(76 40 180 / 0.28);
+  --sh-input: 0 1px 0 rgb(255 255 255 / 0.9) inset, 0 24px 48px -24px rgb(76 40 180 / 0.45);
+  --sh-pop: 0 40px 80px -24px rgb(40 18 110 / 0.4), 0 8px 24px -12px rgb(40 18 110 / 0.2);
+  --sh-focus: 0 0 0 4px rgb(115 73 248 / 0.2);
 
-  /* movimento */
+  /* movimento: estados em 150 ms; entradas com desaceleração exponencial */
   --duration: 150ms;
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 
-  /* cores */
-  --bg: #0a0a0a;
-  --surface: rgb(255 255 255 / 0.055);
-  --surface-2: rgb(255 255 255 / 0.1);
-  --sunken: rgb(10 10 10 / 0.45);
-  --popover: #150c33;
-  --ink: #ffffff;
-  --muted: #efe6ff;
-  --line: rgb(255 255 255 / 0.14);
-  --line-strong: rgb(255 255 255 / 0.28);
-  --accent: #f3deff; /* destaque em texto e links (um tom acima do #E0B3FF, para passar no AA no degradê) */
-  --brand: #b36bff; /* preenchimentos: botão, barras, bordas em foco */
-  --brand-strong: #6a2cff;
-  --on-accent: #0a0a0a;
-  --ok: #b8f0cf;
-  --warn: #fbe3a8;
-  --danger: #ff8f84; /* preenchimentos: barras, pontos */
-  --danger-ink: #ffe0dc; /* texto de erro */
-  --glow: 106 44 255; /* #6A2CFF: brilho atrás do título (r g b) */
-  --sql-kw: #e0b3ff;
-  --sql-fn: #f9d994;
-  --sql-str: #b3e08f;
+  /* cores do dia (o quadrado lilás) */
+  --bg: #f4efff;
+  --sidebar: #0e0b14; /* a cabeça do gato */
+  --surface: #ffffff; /* os olhos */
+  --surface-2: #efe8ff;
+  --sunken: #ebe3ff;
+  --popover: #ffffff;
+  --ink: #14101c;
+  --muted: #4f4862;
+  --faint: #645d77;
+  --line: rgb(64 32 160 / 0.12);
+  --line-strong: rgb(64 32 160 / 0.22);
+  --accent: #6a3cf5; /* texto em destaque e links */
+  --brand: #7349f8; /* preenchimentos: enviar, barras, etapa em andamento */
+  --brand-strong: #5a2ee6;
+  --lilac: #cdbcfd; /* o lilás do meio do ícone: barras secundárias */
+  --on-brand: #ffffff;
+  --ok: #1e8556;
+  --warn: #946000;
+  --danger: #d93f33;
+  --danger-ink: #b42318;
+  --sql-kw: #c4b0ff;
+  --sql-fn: #f2cf7a;
+  --sql-str: #9fdc8a;
   --sql-num: #f5a58a;
+}
+
+/* A "noite": as partes pretas como a cabeça do gato. Troca as cores por dentro, então os componentes continuam
+   usando text-ink, bg-surface etc. e tudo fica certo no escuro. */
+.night {
+  --bg: #0e0b14;
+  --surface: rgb(255 255 255 / 0.06);
+  --surface-2: rgb(255 255 255 / 0.11);
+  --sunken: #08060c;
+  --ink: #f4f0ff;
+  --muted: #b9b1cf;
+  --faint: #9890ae;
+  --line: rgb(255 255 255 / 0.08);
+  --line-strong: rgb(255 255 255 / 0.16);
+  --accent: #c4b0ff;
+  --ok: #7fdcab;
+  --warn: #f2cf7a;
+  --danger: #ff7a6e;
+  --danger-ink: #ffb4ab;
+  color: var(--ink);
 }
 
 @theme inline {
   --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-heading), ui-serif, Georgia, serif;
+  --font-display: var(--font-heading), ui-rounded, system-ui, sans-serif;
   --font-mono: var(--font-code), ui-monospace, monospace;
 
   --radius-control: var(--r-control);
@@ -74,18 +97,21 @@
   --shadow-pop: var(--sh-pop);
 
   --color-bg: var(--bg);
+  --color-sidebar: var(--sidebar);
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
   --color-sunken: var(--sunken);
   --color-popover: var(--popover);
   --color-ink: var(--ink);
   --color-muted: var(--muted);
+  --color-faint: var(--faint);
   --color-line: var(--line);
   --color-line-strong: var(--line-strong);
   --color-accent: var(--accent);
   --color-brand: var(--brand);
   --color-brand-strong: var(--brand-strong);
-  --color-on-accent: var(--on-accent);
+  --color-lilac: var(--lilac);
+  --color-on-brand: var(--on-brand);
   --color-ok: var(--ok);
   --color-warn: var(--warn);
   --color-danger: var(--danger);
@@ -96,100 +122,17 @@
   --color-sql-num: var(--sql-num);
 }
 
-/* ───────── O fundo ─────────
-   Quatro camadas, de baixo para cima, todas só em CSS/SVG (sem imagem, sem JavaScript):
-   1. html:         o degradê de base, do preto (#0A0A0A) ao roxo vivo (#6A2CFF)
-   2. html::before: manchas de cor (#6A2CFF, #B36BFF, #2B0F6B) que derivam devagar
-   3. html::after:  uma luz lilás que atravessa a tela no sentido contrário
-   4. body::before: o desenho: nós ligados como tabelas de um banco, e arcos no canto superior; ele flutua de leve
-   O ruído (body::after) fica por cima de tudo.
-
-   Movimento: leve e lento (cada volta leva de 18 a 30 s), só com transform, que é barato para o navegador.
-   Nada pisca e nada se mexe por causa da rolagem. Com "reduzir movimento" ligado, nada anda. */
 html {
-  background:
-    radial-gradient(48rem 34rem at 100% 100%, rgb(224 179 255 / 0.28) 0%, rgb(179 107 255 / 0.2) 35%, rgb(179 107 255 / 0) 72%) fixed,
-    linear-gradient(155deg, #0a0a0a 0%, #0d081f 22%, #2b0f6b 52%, #4a1fc4 78%, #6a2cff 100%) fixed;
-  color-scheme: dark;
   height: 100%;
-}
-
-html::before,
-html::after,
-body::before {
-  content: "";
-  position: fixed;
-  pointer-events: none;
-  z-index: -1;
-}
-
-html::before {
-  inset: -12%;
-  background:
-    radial-gradient(34rem 26rem at 12% 18%, rgb(106 44 255 / 0.45), transparent 70%),
-    radial-gradient(30rem 24rem at 90% 62%, rgb(179 107 255 / 0.26), transparent 70%),
-    radial-gradient(26rem 20rem at 70% 8%, rgb(43 15 107 / 0.9), transparent 70%);
-  animation: drift 22s ease-in-out infinite alternate;
-  will-change: transform;
-}
-
-html::after {
-  inset: -20%;
-  background: radial-gradient(38rem 30rem at 30% 72%, rgb(179 107 255 / 0.2), transparent 70%);
-  animation: glide 30s ease-in-out infinite alternate;
-  will-change: transform;
-}
-
-body::before {
-  inset: 0;
-  animation: float 18s ease-in-out infinite alternate;
-  background:
-    url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20900%20900'%20fill%3D'none'%3E%3Cg%20stroke%3D'%23E0B3FF'%20stroke-opacity%3D'.16'%3E%3Ccircle%20cx%3D'770'%20cy%3D'770'%20r%3D'130'%2F%3E%3Ccircle%20cx%3D'770'%20cy%3D'770'%20r%3D'250'%2F%3E%3Ccircle%20cx%3D'770'%20cy%3D'770'%20r%3D'380'%2F%3E%3Ccircle%20cx%3D'770'%20cy%3D'770'%20r%3D'520'%2F%3E%3C%2Fg%3E%3Cg%20stroke%3D'%23B36BFF'%20stroke-opacity%3D'.45'%20stroke-width%3D'1.2'%3E%3Cpath%20d%3D'M400%20690%20L560%20600%20L650%20450%20L770%20360'%2F%3E%3Cpath%20d%3D'M560%20600%20L700%20650%20L770%20770'%2F%3E%3Cpath%20d%3D'M650%20450%20L520%20380%20L430%20430'%2F%3E%3Cpath%20d%3D'M700%20650%20L840%20610'%2F%3E%3C%2Fg%3E%3Cg%20fill%3D'%23B36BFF'%3E%3Ccircle%20cx%3D'400'%20cy%3D'690'%20r%3D'5'%20fill-opacity%3D'.7'%2F%3E%3Ccircle%20cx%3D'560'%20cy%3D'600'%20r%3D'7'%20fill-opacity%3D'.8'%2F%3E%3Ccircle%20cx%3D'650'%20cy%3D'450'%20r%3D'6'%20fill-opacity%3D'.7'%2F%3E%3Ccircle%20cx%3D'770'%20cy%3D'360'%20r%3D'4'%20fill-opacity%3D'.6'%2F%3E%3Ccircle%20cx%3D'700'%20cy%3D'650'%20r%3D'5'%20fill-opacity%3D'.7'%2F%3E%3Ccircle%20cx%3D'520'%20cy%3D'380'%20r%3D'4'%20fill-opacity%3D'.6'%2F%3E%3Ccircle%20cx%3D'430'%20cy%3D'430'%20r%3D'3'%20fill-opacity%3D'.6'%2F%3E%3Ccircle%20cx%3D'840'%20cy%3D'610'%20r%3D'4'%20fill-opacity%3D'.6'%2F%3E%3C%2Fg%3E%3Cg%20fill%3D'%23E0B3FF'%3E%3Ccircle%20cx%3D'770'%20cy%3D'770'%20r%3D'9'%20fill-opacity%3D'.85'%2F%3E%3Ccircle%20cx%3D'770'%20cy%3D'770'%20r%3D'22'%20fill-opacity%3D'.12'%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E") right -6% bottom -8% / min(78vmin, 820px) no-repeat,
-    url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20500%20500'%20fill%3D'none'%3E%3Cg%20stroke%3D'%23E0B3FF'%20stroke-opacity%3D'.13'%3E%3Ccircle%20cx%3D'0'%20cy%3D'0'%20r%3D'120'%2F%3E%3Ccircle%20cx%3D'0'%20cy%3D'0'%20r%3D'220'%2F%3E%3Ccircle%20cx%3D'0'%20cy%3D'0'%20r%3D'330'%2F%3E%3Ccircle%20cx%3D'0'%20cy%3D'0'%20r%3D'450'%2F%3E%3C%2Fg%3E%3Ccircle%20cx%3D'120'%20cy%3D'0'%20r%3D'4'%20fill%3D'%23B36BFF'%20fill-opacity%3D'.7'%2F%3E%3Ccircle%20cx%3D'0'%20cy%3D'220'%20r%3D'4'%20fill%3D'%23E0B3FF'%20fill-opacity%3D'.7'%2F%3E%3Ccircle%20cx%3D'330'%20cy%3D'0'%20r%3D'3'%20fill%3D'%23B36BFF'%20fill-opacity%3D'.6'%2F%3E%3C%2Fsvg%3E") left -2% top -2% / min(46vmin, 480px) no-repeat;
+  background: var(--bg);
+  color-scheme: light;
 }
 
 body {
-  min-height: 100%;
+  height: 100%;
+  background: var(--bg);
   color: var(--ink);
-}
-
-@keyframes drift {
-  from {
-    transform: translate3d(-5%, -3%, 0) scale(1);
-  }
-  to {
-    transform: translate3d(5%, 4%, 0) scale(1.15);
-  }
-}
-
-@keyframes glide {
-  from {
-    transform: translate3d(-8%, 6%, 0);
-  }
-  to {
-    transform: translate3d(12%, -8%, 0);
-  }
-}
-
-@keyframes float {
-  from {
-    transform: translate3d(0, -8px, 0);
-  }
-  to {
-    transform: translate3d(0, 8px, 0);
-  }
-}
-
-/* textura de ruído bem leve por cima de tudo (não captura cliques) */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0.035;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  caret-color: var(--brand);
 }
 
 @layer base {
@@ -210,73 +153,292 @@ body::after {
   button:disabled {
     cursor: not-allowed;
   }
+
+  a {
+    text-underline-offset: 4px;
+  }
 }
 
 ::selection {
-  background: rgb(179 107 255 / 0.35);
+  background: rgb(115 73 248 / 0.25);
 }
 
 /* barra de rolagem fina, só dentro das áreas de rolagem */
 .scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: rgb(255 255 255 / 0.24) transparent;
+  scrollbar-color: var(--line-strong) transparent;
 }
 .scrollbar::-webkit-scrollbar {
   height: 8px;
   width: 8px;
 }
 .scrollbar::-webkit-scrollbar-thumb {
-  background: rgb(255 255 255 / 0.24);
+  background: var(--line-strong);
   border-radius: var(--r-pill);
 }
 .scrollbar::-webkit-scrollbar-track {
   background: transparent;
 }
 
+/* ───────── O fundo ─────────
+   O quadrado do ícone em tela cheia: branco-lilás em cima, violeta embaixo, com manchas de luz (o violeta e o
+   lilás do ícone, e um brilho branco no alto) que orbitam devagar (28 a 40 s por volta), uma grade de pontos fina
+   e, na tela inicial, um brilho branco que segue o ponteiro (--mx, --my, escritos pela página). Quando a conversa
+   começa, o céu acalma (.sky-quiet): as manchas param e esmaecem, para nada se mexer atrás dos dados. */
+.sky {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: linear-gradient(180deg, #fbf8ff 0%, #f1eaff 45%, #ddd0ff 100%);
+}
+.sky .blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(96px);
+  will-change: transform;
+  transition: opacity 1.2s var(--ease-out);
+}
+.sky .blob-a {
+  left: 50%;
+  bottom: -14rem;
+  width: 56rem;
+  height: 28rem;
+  margin-left: -28rem;
+  background: #8255fd;
+  opacity: 0.4;
+  animation: orbit-a 28s ease-in-out infinite alternate;
+}
+.sky .blob-b {
+  left: -10rem;
+  top: 20%;
+  width: 32rem;
+  height: 28rem;
+  background: #aa89fc;
+  opacity: 0.35;
+  animation: orbit-b 34s ease-in-out infinite alternate;
+}
+.sky .blob-c {
+  right: -8rem;
+  top: -6rem;
+  width: 32rem;
+  height: 24rem;
+  background: #ffffff;
+  opacity: 0.9;
+  animation: orbit-c 40s ease-in-out infinite alternate;
+}
+/* a grade de pontos: só no meio de cima, sumindo nas bordas */
+.sky::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgb(106 60 245 / 0.14) 1px, transparent 1px);
+  background-size: 24px 24px;
+  -webkit-mask-image: radial-gradient(ellipse 60% 50% at 50% 30%, #000, transparent);
+  mask-image: radial-gradient(ellipse 60% 50% at 50% 30%, #000, transparent);
+  transition: opacity 1.2s var(--ease-out);
+}
+/* o brilho branco que segue o ponteiro */
+.sky::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(32rem circle at var(--mx, 50%) var(--my, 30%), rgb(255 255 255 / 0.6), transparent 70%);
+  transition: opacity 0.6s var(--ease-out);
+}
+/* durante a conversa: manchas paradas e mais fracas, sem grade e sem o brilho do ponteiro */
+.sky-quiet .blob {
+  animation-play-state: paused;
+  opacity: 0.2;
+}
+.sky-quiet::before,
+.sky-quiet::after {
+  opacity: 0;
+}
+
+@keyframes orbit-a {
+  from {
+    transform: translate3d(-12%, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(12%, -8%, 0) scale(1.15);
+  }
+}
+@keyframes orbit-b {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(24%, -12%, 0) scale(1.2);
+  }
+}
+@keyframes orbit-c {
+  from {
+    transform: translate3d(0, 0, 0) scale(1.1);
+  }
+  to {
+    transform: translate3d(-20%, 16%, 0) scale(0.9);
+  }
+}
+
 /* ───────── Movimento ─────────
-   A tela inicial entra uma vez; a mensagem nova aparece suave; um ponto pulsa enquanto o
-   agente trabalha. Nada se move por causa da rolagem. */
+   Entradas sobem 8 px saindo de um leve desfoque; barras crescem; o gato da marca pisca e, enquanto o agente
+   trabalha, lê com os olhos de um lado para o outro e uma luz percorre a borda do campo.
+   Nada se move por causa da rolagem. Com "reduzir movimento" ligado, nada anda. */
 @keyframes rise {
   from {
     opacity: 0;
     transform: translateY(8px);
+    filter: blur(4px);
   }
   to {
     opacity: 1;
     transform: none;
+    filter: none;
   }
 }
-@keyframes pulse-dot {
+@keyframes grow {
+  from {
+    transform: scaleX(0);
+  }
+}
+/* o gato: pisca a cada 6 s; enquanto o agente trabalha, os olhos leem de um lado para o outro */
+@keyframes blink {
+  0%,
+  93%,
+  100% {
+    transform: scaleY(1);
+  }
+  96% {
+    transform: scaleY(0.1);
+  }
+}
+@keyframes scan {
   0%,
   100% {
-    opacity: 0.25;
+    transform: translateX(-14px);
   }
   50% {
+    transform: translateX(14px);
+  }
+}
+@keyframes word {
+  from {
+    opacity: 0;
+    filter: blur(6px);
+  }
+}
+@keyframes unfold {
+  from {
+    clip-path: inset(0 0 100% 0 round var(--r-card));
+    opacity: 0.4;
+  }
+  to {
+    clip-path: inset(0 0 0 0 round var(--r-card));
     opacity: 1;
+  }
+}
+@keyframes hint {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+@property --angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes spin-angle {
+  to {
+    --angle: 360deg;
   }
 }
 
 @layer components {
-  /* a área de mensagens some suave em cima e embaixo, em vez de ser cortada seca pelo cabeçalho e pelo campo */
-  .fade-edges {
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
-    mask-image: linear-gradient(to bottom, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
+  /* a área de mensagens some suave embaixo, em vez de ser cortada seca pelo campo de pergunta */
+  .fade-bottom {
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 24px), transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 24px), transparent 100%);
   }
 
   .fade-in {
-    animation: rise 0.35s ease-out both;
+    animation: rise 0.5s var(--ease-out) both;
   }
   /* entrada em sequência dos filhos (tela inicial) */
   .enter > * {
-    animation: rise 0.6s var(--ease) both;
+    animation: rise 0.7s var(--ease-out) both;
   }
-  .enter > *:nth-child(2) { animation-delay: 0.07s; }
-  .enter > *:nth-child(3) { animation-delay: 0.14s; }
-  .enter > *:nth-child(4) { animation-delay: 0.21s; }
-  .enter > *:nth-child(5) { animation-delay: 0.28s; }
+  .enter > *:nth-child(2) { animation-delay: 0.06s; }
+  .enter > *:nth-child(3) { animation-delay: 0.12s; }
+  .enter > *:nth-child(4) { animation-delay: 0.18s; }
+  .enter > *:nth-child(5) { animation-delay: 0.24s; }
 
-  .pulse-dot {
-    animation: pulse-dot 1.2s ease-in-out infinite;
+  /* barras do gráfico: crescem da esquerda, uma depois da outra (o atraso vem no style de cada uma) */
+  .grow {
+    transform-origin: left center;
+    animation: grow 0.6s var(--ease-out) both;
+  }
+
+  .cat-eyes {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: blink 6s ease-in-out infinite;
+  }
+  /* seguir o ponteiro: o deslocamento vem no style, a transição suaviza */
+  .cat-look {
+    transition: transform 0.4s var(--ease-out);
+  }
+  .cat-working .cat-look {
+    animation: scan 1.4s ease-in-out infinite;
+  }
+
+  /* a resposta nova aparece palavra por palavra (o atraso de cada uma vem no style) */
+  .word {
+    animation: word 0.4s var(--ease-out) both;
+  }
+
+  /* o cartão de dados se desdobra de cima para baixo */
+  .unfold {
+    animation: unfold 0.5s var(--ease-out) both;
+  }
+
+  /* a pergunta de exemplo que troca dentro do campo vazio */
+  .hint {
+    animation: hint 0.6s var(--ease-out) both;
+  }
+
+  /* enquanto o agente pensa, uma luz percorre a borda do campo de pergunta */
+  .composer-live {
+    border-color: transparent;
+    background:
+      linear-gradient(var(--surface), var(--surface)) padding-box,
+      conic-gradient(from var(--angle), var(--line-strong) 0 55%, var(--brand) 75%, var(--lilac) 82%, var(--line-strong) 95%) border-box;
+    animation: spin-angle 2.4s linear infinite;
+  }
+
+  /* o botão de ação: o degradê violeta da base do ícone, com o brilho branco no alto */
+  .btn-brand {
+    color: var(--on-brand);
+    background: linear-gradient(180deg, #9a7cff 0%, var(--brand) 55%, var(--brand-strong) 100%);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.45),
+      0 8px 20px -8px rgb(90 46 230 / 0.6);
+  }
+  .btn-brand:hover:not(:disabled) {
+    filter: brightness(1.08);
+  }
+  .btn-brand:disabled {
+    background: var(--surface-2);
+    color: var(--faint);
+    box-shadow: none;
+  }
+
+  /* títulos na Fredoka, encorpados (600 é o peso em que ela fica mais parecida com o gato) */
+  .font-display {
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
 
   /* cartão padrão: mesmo raio, borda, fundo e sombra em toda parte */
@@ -287,37 +449,17 @@ body::after {
     box-shadow: var(--sh-card);
   }
 
-  /* selo pequeno (ex.: "Somente leitura") */
+  /* selo pequeno (ex.: "3 assuntos") */
   .badge {
     display: inline-flex;
     align-items: center;
     gap: var(--space-1);
     padding: var(--space-1) var(--space-2);
-    border: 1px solid var(--line);
     border-radius: var(--r-pill);
-    background: var(--surface);
+    background: var(--surface-2);
     color: var(--muted);
     font-size: 12px;
     line-height: 16px;
-  }
-
-  /* brilho radial roxo (#6A2CFF, ~14%) atrás do título */
-  .glow {
-    position: relative;
-    isolation: isolate;
-    overflow: clip;
-  }
-  .glow::before {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 1rem;
-    z-index: -1;
-    width: min(56rem, 100%);
-    height: 26rem;
-    transform: translateX(-50%);
-    pointer-events: none;
-    background: radial-gradient(closest-side, rgb(var(--glow) / 0.14), transparent);
   }
 
   /* botão: muda no hover e encolhe de leve ao clicar */
@@ -327,18 +469,80 @@ body::after {
       background-color var(--duration) var(--ease),
       border-color var(--duration) var(--ease),
       color var(--duration) var(--ease),
-      opacity var(--duration) var(--ease);
+      opacity var(--duration) var(--ease),
+      filter var(--duration) var(--ease);
   }
   .press:active:not(:disabled) {
-    transform: scale(0.96);
+    transform: scale(0.97);
+  }
+
+  /* ───────── Janelas ─────────
+     Abrem crescendo de 96% com o fundo lilás desfocando; fecham mais rápido (o navegador espera a transição
+     graças ao "allow-discrete"). */
+  .modal {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+    transition:
+      opacity 0.15s var(--ease),
+      transform 0.2s var(--ease),
+      overlay 0.2s allow-discrete,
+      display 0.2s allow-discrete;
+  }
+  .modal[open] {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 0.2s var(--ease-out),
+      transform 0.3s var(--ease-out),
+      overlay 0.3s allow-discrete,
+      display 0.3s allow-discrete;
+  }
+  @starting-style {
+    .modal[open] {
+      opacity: 0;
+      transform: translateY(8px) scale(0.96);
+    }
+  }
+  .modal::backdrop {
+    background: rgb(244 239 255 / 0);
+    backdrop-filter: blur(0);
+    transition:
+      background-color 0.2s var(--ease),
+      backdrop-filter 0.2s var(--ease),
+      overlay 0.2s allow-discrete,
+      display 0.2s allow-discrete;
+  }
+  .modal[open]::backdrop {
+    background: rgb(244 239 255 / 0.6);
+    backdrop-filter: blur(8px);
+    transition:
+      background-color 0.3s var(--ease-out),
+      backdrop-filter 0.3s var(--ease-out),
+      overlay 0.3s allow-discrete,
+      display 0.3s allow-discrete;
+  }
+  @starting-style {
+    .modal[open]::backdrop {
+      background: rgb(244 239 255 / 0);
+      backdrop-filter: blur(0);
+    }
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
-  *::after {
+  *::after,
+  .modal::backdrop {
     animation: none !important;
     transition: none !important;
+  }
+  /* sem a luz girando: a borda do campo fica violeta, parada, enquanto o agente pensa */
+  .composer-live {
+    background: var(--surface);
+    border-color: var(--brand);
+  }
+  .sky::after {
+    display: none;
   }
 }

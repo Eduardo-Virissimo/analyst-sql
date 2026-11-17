@@ -1,0 +1,508 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-17T06:12:26.059Z",
+  "title": "Design System: analyst-sql",
+  "extensions": {
+    "colorMeta": {
+      "brand": {
+        "role": "primary",
+        "displayName": "Icon Violet",
+        "canonical": "#7349f8",
+        "tonalRamp": [
+          "#1e0f52",
+          "#2e1789",
+          "#4320c0",
+          "#5a2ee6",
+          "#7349f8",
+          "#9a7cff",
+          "#cdbcfd",
+          "#f1eaff"
+        ]
+      },
+      "brand-strong": {
+        "role": "primary",
+        "displayName": "Deep Icon Violet",
+        "canonical": "#5a2ee6",
+        "tonalRamp": [
+          "#1e0f52",
+          "#2e1789",
+          "#4320c0",
+          "#5a2ee6",
+          "#7349f8",
+          "#9a7cff",
+          "#cdbcfd",
+          "#f1eaff"
+        ]
+      },
+      "brand-highlight": {
+        "role": "primary",
+        "displayName": "Gloss Violet",
+        "canonical": "#9a7cff",
+        "tonalRamp": [
+          "#1e0f52",
+          "#2e1789",
+          "#4320c0",
+          "#5a2ee6",
+          "#7349f8",
+          "#9a7cff",
+          "#cdbcfd",
+          "#f1eaff"
+        ]
+      },
+      "accent": {
+        "role": "primary",
+        "displayName": "Ink Violet",
+        "canonical": "#6a3cf5",
+        "tonalRamp": [
+          "#1e0f52",
+          "#2e1789",
+          "#4320c0",
+          "#5a2ee6",
+          "#7349f8",
+          "#9a7cff",
+          "#cdbcfd",
+          "#f1eaff"
+        ]
+      },
+      "lilac": {
+        "role": "secondary",
+        "displayName": "Icon Lilac",
+        "canonical": "#cdbcfd",
+        "tonalRamp": [
+          "#2b0f6b",
+          "#4320c0",
+          "#7349f8",
+          "#8255fd",
+          "#aa89fc",
+          "#cdbcfd",
+          "#ddd0ff",
+          "#fbf8ff"
+        ]
+      },
+      "bg": {
+        "role": "neutral",
+        "displayName": "Lilac Ground",
+        "canonical": "#f4efff",
+        "tonalRamp": [
+          "#14101c",
+          "#2a2238",
+          "#4f4862",
+          "#645d77",
+          "#9890ae",
+          "#ddd0ff",
+          "#ebe3ff",
+          "#fbf8ff"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Eye White",
+        "canonical": "#ffffff"
+      },
+      "surface-2": {
+        "role": "neutral",
+        "displayName": "Pale Lilac",
+        "canonical": "#efe8ff"
+      },
+      "sunken": {
+        "role": "neutral",
+        "displayName": "Sunken Lilac",
+        "canonical": "#ebe3ff"
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#14101c"
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted Ink",
+        "canonical": "#4f4862"
+      },
+      "faint": {
+        "role": "neutral",
+        "displayName": "Faint Ink",
+        "canonical": "#645d77"
+      },
+      "sidebar": {
+        "role": "neutral",
+        "displayName": "Cat Black",
+        "canonical": "#0e0b14",
+        "tonalRamp": [
+          "#08060c",
+          "#0e0b14",
+          "#1d1926",
+          "#2c2738",
+          "#4f4862",
+          "#9890ae",
+          "#b9b1cf",
+          "#f4f0ff"
+        ]
+      },
+      "night-accent": {
+        "role": "primary",
+        "displayName": "Night Lilac",
+        "canonical": "#c4b0ff"
+      },
+      "ok": {
+        "role": "tertiary",
+        "displayName": "Safe Green",
+        "canonical": "#1e8556"
+      },
+      "warn": {
+        "role": "tertiary",
+        "displayName": "Key Amber",
+        "canonical": "#946000"
+      },
+      "danger-ink": {
+        "role": "tertiary",
+        "displayName": "Error Red",
+        "canonical": "#b42318"
+      },
+      "sky-top": {
+        "role": "neutral",
+        "displayName": "Sky Top",
+        "canonical": "#fbf8ff"
+      },
+      "sky-middle": {
+        "role": "neutral",
+        "displayName": "Sky Middle",
+        "canonical": "#f1eaff"
+      },
+      "sky-base": {
+        "role": "neutral",
+        "displayName": "Sky Base",
+        "canonical": "#ddd0ff"
+      },
+      "sky-blob-violet": {
+        "role": "neutral",
+        "displayName": "Blob Violet",
+        "canonical": "#8255fd"
+      },
+      "sky-blob-lilac": {
+        "role": "neutral",
+        "displayName": "Blob Lilac",
+        "canonical": "#aa89fc"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The greeting only; 36px on phones, 48px from sm."
+      },
+      "numeral": {
+        "displayName": "Numeral",
+        "purpose": "The single-value answer, counting up from 0."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Window titles."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Card titles inside windows."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Question bubble and answer (28px lines); composer and subtitle at 24px."
+      },
+      "body-sm": {
+        "displayName": "Body small",
+        "purpose": "Panels, table, buttons, tabs, progress steps."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Badges, captions, timings, counts; sentence case."
+      },
+      "code": {
+        "displayName": "Code",
+        "purpose": "SQL block; tabular mono numbers in table and chart; the wordmark."
+      }
+    },
+    "shadows": [
+      {
+        "name": "card",
+        "value": "0 1px 0 rgb(255 255 255 / 0.9) inset, 0 12px 32px -16px rgb(76 40 180 / 0.28)",
+        "purpose": "Every card, the result card, example cards."
+      },
+      {
+        "name": "input",
+        "value": "0 1px 0 rgb(255 255 255 / 0.9) inset, 0 24px 48px -24px rgb(76 40 180 / 0.45)",
+        "purpose": "The composer, the most lifted object."
+      },
+      {
+        "name": "pop",
+        "value": "0 40px 80px -24px rgb(40 18 110 / 0.4), 0 8px 24px -12px rgb(40 18 110 / 0.2)",
+        "purpose": "Windows."
+      },
+      {
+        "name": "focus",
+        "value": "0 0 0 4px rgb(115 73 248 / 0.2)",
+        "purpose": "Focus halo on the composer; halo on the current progress dot."
+      },
+      {
+        "name": "brand-button",
+        "value": "inset 0 1px 0 rgb(255 255 255 / 0.45), 0 8px 20px -8px rgb(90 46 230 / 0.6)",
+        "purpose": ".btn-brand."
+      },
+      {
+        "name": "card-hover",
+        "value": "0 20px 40px -20px rgb(90 46 230 / 0.5)",
+        "purpose": "Example cards on hover."
+      },
+      {
+        "name": "mark-lift",
+        "value": "0 24px 48px -16px rgb(90 46 230 / 0.55)",
+        "purpose": "The 88px cat tile on the greeting."
+      },
+      {
+        "name": "night-bubble",
+        "value": "0 12px 24px -12px rgb(20 10 40 / 0.5)",
+        "purpose": "The user's question bubble."
+      },
+      {
+        "name": "ok-halo",
+        "value": "0 0 0 4px rgb(127 220 171 / 0.15)",
+        "purpose": "The read-only status dot in the sidebar."
+      }
+    ],
+    "motion": [
+      {
+        "name": "duration",
+        "value": "150ms",
+        "purpose": "State changes (.press: colour, border, opacity, filter; scale 0.97 on press)."
+      },
+      {
+        "name": "ease",
+        "value": "cubic-bezier(0.2, 0.7, 0.2, 1)",
+        "purpose": "State transitions; modal close."
+      },
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Every entrance (exponential deceleration)."
+      },
+      {
+        "name": "rise",
+        "value": "translateY(8px) + blur(4px) to none; 500ms (.fade-in), 700ms staggered 60ms (.enter)",
+        "purpose": "Entrances."
+      },
+      {
+        "name": "word",
+        "value": "opacity 0 + blur(6px) to none, 400ms each, step at most 24ms, whole answer within 600ms",
+        "purpose": "A fresh answer appears word by word; history answers appear ready."
+      },
+      {
+        "name": "unfold",
+        "value": "clip-path inset(0 0 100% 0 round 24px) to full, 500ms",
+        "purpose": "The result card unfolds from the top."
+      },
+      {
+        "name": "grow",
+        "value": "scaleX(0) to 1 from the left, 600ms, 40ms between bars",
+        "purpose": "Chart bars."
+      },
+      {
+        "name": "count-up",
+        "value": "0 to value over 700ms, ease-out quart",
+        "purpose": "The big number."
+      },
+      {
+        "name": "modal",
+        "value": "open: translateY(8px) scale(0.96) to none, 300ms ease-out, backdrop blur 0 to 8px; close: 200ms ease",
+        "purpose": "Windows."
+      },
+      {
+        "name": "blink",
+        "value": "scaleY 1 to 0.1 at 96%, every 6s",
+        "purpose": "The cat's eyes."
+      },
+      {
+        "name": "scan",
+        "value": "translateX -14 to 14, 1.4s ease-in-out infinite",
+        "purpose": "The cat's eyes while the agent works."
+      },
+      {
+        "name": "follow",
+        "value": "eyes offset toward the pointer, max 14/200, 400ms ease-out",
+        "purpose": "The greeting cat watches the pointer."
+      },
+      {
+        "name": "composer-live",
+        "value": "conic border light (line-strong, brand, lilac), 2.4s linear infinite",
+        "purpose": "While the agent works."
+      },
+      {
+        "name": "sky-orbit",
+        "value": "blobs orbit 28s / 34s / 40s alternate; .sky-quiet pauses them and fades to 0.2 over 1.2s",
+        "purpose": "Ambient ground before the conversation starts."
+      },
+      {
+        "name": "hint",
+        "value": "rise 8px, 600ms, cycling every 4s",
+        "purpose": "Example questions in the empty composer."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "all animation and transition none; composer border static brand; pointer glow hidden; eyes, hints and count-up still",
+        "purpose": "prefers-reduced-motion: reduce."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Brand Button",
+      "kind": "button",
+      "refersTo": "button-brand",
+      "description": "Round send button with the icon's violet gradient and white inner highlight.",
+      "html": "<button class=\"ds-btn-brand\" aria-label=\"Enviar pergunta\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 19V5M5 12l7-7 7 7\"/></svg></button>",
+      "css": ":host{--bg:#f4efff;--surface:#fff;--surface-2:#efe8ff;--ink:#14101c;--muted:#4f4862;--faint:#645d77;--line:rgb(64 32 160/.12);--line-strong:rgb(64 32 160/.22);--accent:#6a3cf5;--brand:#7349f8;--brand-strong:#5a2ee6;--lilac:#cdbcfd;--ease:cubic-bezier(.2,.7,.2,1);--sh-card:0 1px 0 rgb(255 255 255/.9) inset,0 12px 32px -16px rgb(76 40 180/.28)}.ds-btn-brand{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border:0;border-radius:999px;color:#fff;background:linear-gradient(180deg,#9a7cff 0%,var(--brand,#7349f8) 55%,var(--brand-strong,#5a2ee6) 100%);box-shadow:inset 0 1px 0 rgb(255 255 255/.45),0 8px 20px -8px rgb(90 46 230/.6);cursor:pointer;transition:transform 150ms var(--ease),filter 150ms var(--ease)}.ds-btn-brand:hover{filter:brightness(1.08)}.ds-btn-brand:active{transform:scale(.97)}.ds-btn-brand:focus-visible{outline:2px solid var(--accent);outline-offset:2px}"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Quiet 40px button for secondary actions.",
+      "html": "<button class=\"ds-btn-ghost\">Ver todas as perguntas prontas</button>",
+      "css": ":host{--bg:#f4efff;--surface:#fff;--surface-2:#efe8ff;--ink:#14101c;--muted:#4f4862;--faint:#645d77;--line:rgb(64 32 160/.12);--line-strong:rgb(64 32 160/.22);--accent:#6a3cf5;--brand:#7349f8;--brand-strong:#5a2ee6;--lilac:#cdbcfd;--ease:cubic-bezier(.2,.7,.2,1);--sh-card:0 1px 0 rgb(255 255 255/.9) inset,0 12px 32px -16px rgb(76 40 180/.28)}.ds-btn-ghost{height:40px;padding:0 16px;border:0;border-radius:999px;background:transparent;color:var(--muted);font:400 14px/24px Geist,system-ui,sans-serif;cursor:pointer;transition:background-color 150ms var(--ease),color 150ms var(--ease),transform 150ms var(--ease)}.ds-btn-ghost:hover{background:var(--surface);color:var(--ink)}.ds-btn-ghost:active{transform:scale(.97)}.ds-btn-ghost:focus-visible{outline:2px solid var(--accent);outline-offset:2px}"
+    },
+    {
+      "name": "Composer",
+      "kind": "input",
+      "refersTo": "composer",
+      "description": "White glossy question field with the read-only note and the send button.",
+      "html": "<form class=\"ds-composer\"><textarea rows=\"1\" placeholder=\"Pergunte qualquer coisa sobre os dados de RH\"></textarea><div class=\"ds-composer-foot\"><span>Só consulta, não altera dados</span><button type=\"button\" class=\"ds-send\" aria-label=\"Enviar\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 19V5M5 12l7-7 7 7\"/></svg></button></div></form>",
+      "css": ":host{--bg:#f4efff;--surface:#fff;--surface-2:#efe8ff;--ink:#14101c;--muted:#4f4862;--faint:#645d77;--line:rgb(64 32 160/.12);--line-strong:rgb(64 32 160/.22);--accent:#6a3cf5;--brand:#7349f8;--brand-strong:#5a2ee6;--lilac:#cdbcfd;--ease:cubic-bezier(.2,.7,.2,1);--sh-card:0 1px 0 rgb(255 255 255/.9) inset,0 12px 32px -16px rgb(76 40 180/.28)}.ds-composer{max-width:560px;border:1px solid var(--line-strong);border-radius:24px;background:var(--surface);box-shadow:0 1px 0 rgb(255 255 255/.9) inset,0 24px 48px -24px rgb(76 40 180/.45);transition:border-color 150ms,box-shadow 150ms}.ds-composer:focus-within{border-color:rgb(115 73 248/.6);box-shadow:0 0 0 4px rgb(115 73 248/.2),0 24px 48px -24px rgb(76 40 180/.45)}.ds-composer textarea{display:block;width:100%;min-height:56px;box-sizing:border-box;resize:none;border:0;background:transparent;padding:16px 16px 8px;font:400 16px/24px Geist,system-ui,sans-serif;color:var(--ink);outline:none}.ds-composer textarea::placeholder{color:var(--faint)}.ds-composer-foot{display:flex;align-items:center;justify-content:space-between;padding:0 8px 8px 16px;font:12px/16px Geist,system-ui,sans-serif;color:var(--faint)}.ds-send{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border:0;border-radius:999px;color:#fff;background:linear-gradient(180deg,#9a7cff 0%,var(--brand,#7349f8) 55%,var(--brand-strong,#5a2ee6) 100%);box-shadow:inset 0 1px 0 rgb(255 255 255/.45),0 8px 20px -8px rgb(90 46 230/.6);cursor:pointer}.ds-send:hover{filter:brightness(1.08)}"
+    },
+    {
+      "name": "Sidebar (night)",
+      "kind": "nav",
+      "refersTo": "sidebar-row-active",
+      "description": "The black night island: mark, new conversation, conversation rows.",
+      "html": "<nav class=\"ds-side\"><div class=\"ds-side-brand\"><span class=\"ds-mark\"></span>analyst<span class=\"ds-sql\">-sql</span></div><button class=\"ds-row\"><span class=\"ds-plus\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><path d=\"M12 5v14M5 12h14\"/></svg></span>Nova conversa</button><p class=\"ds-group\">Hoje</p><button class=\"ds-row ds-active\">Salário médio por área</button><button class=\"ds-row\">Quem entrou este ano</button></nav>",
+      "css": ".ds-side{width:288px;padding:8px;background:#0e0b14;color:#f4f0ff;border-radius:24px;font:400 14px/24px Geist,system-ui,sans-serif}.ds-side-brand{display:flex;align-items:center;gap:8px;height:48px;padding:0 8px;font:600 16px 'Geist Mono',monospace}.ds-sql{color:#c4b0ff}.ds-mark{width:32px;height:32px;border-radius:28%;background:linear-gradient(180deg,#fbf8ff,#cdbcfd 50%,#8255fd)}.ds-row{display:flex;align-items:center;gap:8px;width:100%;height:40px;padding:0 8px;border:0;border-radius:16px;background:transparent;color:#b9b1cf;font:inherit;text-align:left;cursor:pointer;transition:background-color 150ms,color 150ms}.ds-row:hover{background:rgb(255 255 255/.06);color:#f4f0ff}.ds-row:focus-visible{outline:2px solid #c4b0ff;outline-offset:2px}.ds-active{background:rgb(255 255 255/.11);color:#f4f0ff}.ds-plus{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:999px;color:#fff;background:linear-gradient(180deg,#9a7cff 0%,var(--brand,#7349f8) 55%,var(--brand-strong,#5a2ee6) 100%);box-shadow:inset 0 1px 0 rgb(255 255 255/.45),0 8px 20px -8px rgb(90 46 230/.6);}.ds-group{margin:16px 8px 4px;font-size:12px;line-height:16px;font-weight:500;color:#9890ae}"
+    },
+    {
+      "name": "Badge",
+      "kind": "chip",
+      "refersTo": "badge",
+      "description": "Small pale lilac pill for counts and answer types.",
+      "html": "<span class=\"ds-badge\">3 assuntos</span>",
+      "css": ":host{--bg:#f4efff;--surface:#fff;--surface-2:#efe8ff;--ink:#14101c;--muted:#4f4862;--faint:#645d77;--line:rgb(64 32 160/.12);--line-strong:rgb(64 32 160/.22);--accent:#6a3cf5;--brand:#7349f8;--brand-strong:#5a2ee6;--lilac:#cdbcfd;--ease:cubic-bezier(.2,.7,.2,1);--sh-card:0 1px 0 rgb(255 255 255/.9) inset,0 12px 32px -16px rgb(76 40 180/.28)}.ds-badge{display:inline-flex;align-items:center;gap:4px;padding:4px 8px;border-radius:999px;background:var(--surface-2);color:var(--muted);font:400 12px/16px Geist,system-ui,sans-serif}"
+    },
+    {
+      "name": "Result Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "White glossy card with underlined tabs, record count, explanation and bars.",
+      "html": "<div class=\"ds-card\"><div class=\"ds-tabs\" role=\"tablist\"><button class=\"ds-tab ds-on\" role=\"tab\">Gráfico</button><button class=\"ds-tab\" role=\"tab\">Tabela</button><button class=\"ds-tab\" role=\"tab\">Busca (SQL)</button><span class=\"ds-count\">5 registros</span></div><div class=\"ds-body\"><p>Os mesmos números da tabela, em barras, para comparar de relance.</p><div class=\"ds-bar\"><i class=\"ds-top\" style=\"width:100%\"></i></div><div class=\"ds-bar\"><i style=\"width:62%\"></i></div><div class=\"ds-bar\"><i style=\"width:38%\"></i></div></div></div>",
+      "css": ":host{--bg:#f4efff;--surface:#fff;--surface-2:#efe8ff;--ink:#14101c;--muted:#4f4862;--faint:#645d77;--line:rgb(64 32 160/.12);--line-strong:rgb(64 32 160/.22);--accent:#6a3cf5;--brand:#7349f8;--brand-strong:#5a2ee6;--lilac:#cdbcfd;--ease:cubic-bezier(.2,.7,.2,1);--sh-card:0 1px 0 rgb(255 255 255/.9) inset,0 12px 32px -16px rgb(76 40 180/.28)}.ds-card{max-width:520px;overflow:hidden;border:1px solid var(--line);border-radius:24px;background:var(--surface);box-shadow:var(--sh-card);font:400 14px/24px Geist,system-ui,sans-serif;color:var(--ink)}.ds-tabs{display:flex;align-items:center;padding:0 16px;border-bottom:1px solid var(--line)}.ds-tab{height:48px;padding:0 16px;border:0;border-bottom:2px solid transparent;margin-bottom:-1px;background:none;color:var(--muted);font:inherit;cursor:pointer;transition:color 150ms}.ds-tab:hover{color:var(--ink)}.ds-tab:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}.ds-on{border-color:var(--brand);color:var(--ink)}.ds-count{margin-left:auto;font-size:12px;color:var(--faint)}.ds-body{padding:16px}.ds-body p{margin:0 0 16px;color:var(--muted)}.ds-bar{height:24px;margin-top:8px;border-radius:16px;background:#ebe3ff}.ds-bar i{display:block;height:100%;border-radius:16px;background:var(--lilac)}.ds-bar i.ds-top{background:linear-gradient(90deg,#9a7cff,var(--brand))}"
+    },
+    {
+      "name": "Question Bubble (night)",
+      "kind": "custom",
+      "refersTo": "user-bubble",
+      "description": "The user's question, a black island whose bottom-right corner points at its speaker.",
+      "html": "<p class=\"ds-bubble\">Qual o salário médio por departamento?</p>",
+      "css": ".ds-bubble{display:inline-block;margin:0;max-width:85%;padding:8px 16px;border-radius:24px 24px 16px 24px;background:#0e0b14;color:#f4f0ff;font:400 16px/28px Geist,system-ui,sans-serif;box-shadow:0 12px 24px -12px rgb(20 10 40/.5)}"
+    },
+    {
+      "name": "SQL Block (night)",
+      "kind": "custom",
+      "refersTo": "sql-block",
+      "description": "The query in mono on the night ground with the syntax inks.",
+      "html": "<pre class=\"ds-sqlb\"><code><b>SELECT</b> d.nome, <em>AVG</em>(f.salario)\n<b>FROM</b> funcionarios f\n<b>WHERE</b> f.status = <s>'ativo'</s>\n<b>LIMIT</b> <u>100</u></code></pre>",
+      "css": ".ds-sqlb{margin:0;padding:16px 48px 16px 16px;border-radius:16px;background:#0e0b14;color:#f4f0ff;font:400 14px/24px 'Geist Mono',ui-monospace,monospace;overflow-x:auto}.ds-sqlb b{color:#c4b0ff;font-weight:500}.ds-sqlb em{color:#f2cf7a;font-style:normal}.ds-sqlb s{color:#9fdc8a;text-decoration:none}.ds-sqlb u{color:#f5a58a;text-decoration:none}"
+    },
+    {
+      "name": "Question Row",
+      "kind": "custom",
+      "refersTo": "question-row",
+      "description": "A ready question; one click asks it.",
+      "html": "<button class=\"ds-qrow\"><span class=\"ds-q\">Quantas pessoas trabalham em cada área?</span><span class=\"ds-tag\">Gráfico</span><span class=\"ds-arrow\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 17 17 7M8 7h9v9\"/></svg></span></button>",
+      "css": ":host{--bg:#f4efff;--surface:#fff;--surface-2:#efe8ff;--ink:#14101c;--muted:#4f4862;--faint:#645d77;--line:rgb(64 32 160/.12);--line-strong:rgb(64 32 160/.22);--accent:#6a3cf5;--brand:#7349f8;--brand-strong:#5a2ee6;--lilac:#cdbcfd;--ease:cubic-bezier(.2,.7,.2,1);--sh-card:0 1px 0 rgb(255 255 255/.9) inset,0 12px 32px -16px rgb(76 40 180/.28)}.ds-qrow{display:flex;align-items:center;gap:8px;width:100%;max-width:520px;min-height:48px;padding:8px;border:0;border-radius:16px;background:transparent;color:var(--muted);font:400 14px/24px Geist,system-ui,sans-serif;text-align:left;cursor:pointer;transition:background-color 150ms var(--ease),color 150ms var(--ease)}.ds-q{flex:1}.ds-qrow:hover{background:var(--surface-2);color:var(--ink)}.ds-qrow:focus-visible{outline:2px solid var(--accent);outline-offset:2px}.ds-tag{padding:4px 8px;border-radius:999px;background:var(--surface-2);font-size:12px;line-height:16px}.ds-arrow{display:inline-flex;color:var(--accent);opacity:0;transition:opacity 150ms,transform 150ms}.ds-qrow:hover .ds-arrow,.ds-qrow:focus-visible .ds-arrow{opacity:1;transform:translate(4px,-4px)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Cat Icon, Unfolded",
+    "overview": "The whole interface is the app icon opened out into a workspace. The icon is a lilac tile, white at the top and violet at the base, with a black cat head and two white eyes. Each part of it has a job on screen. The lilac tile is the ground: a light sky that runs from near-white to soft violet behind the conversation. The black head is the \"night\": the sidebar, the person's own question bubble and the SQL block are black islands that flip every colour token inside them. The white eyes are the surfaces: cards, the composer and windows are white and glossy, with a white hairline along the top edge and a violet-tinted shadow underneath. The violet at the base of the tile is the action colour, and action buttons use the icon's own violet gradient.\n\nThe layout itself stays familiar on purpose. The people using it are HR staff who do not know SQL, so they get the chat they already know: a left rail of past conversations (288px, black), one centred column (768px max), and a composer at the foot. The character comes from the material (lilac sky, black parts, glossy white) and from the cat. The page never scrolls. Only the messages area scrolls, and it fades out over its last 24px instead of being cut off by the composer.\n\nThe motion grammar is soft and short, and it always has a reason. Entrances rise 8px out of a slight blur. The cat's eyes blink every 6s, follow the pointer on the greeting, and scan left to right while the agent works. A light runs around the composer's border while an answer is on its way. Answers then appear word by word, the data card unfolds and bars grow. While there is no conversation the sky moves, with blobs orbiting slowly. Once a conversation starts the sky goes quiet, so nothing moves behind the data. With reduced motion turned on, nothing moves at all. The neutral grey chat with a single accent, the dark neon look and the previous dark-charcoal canon are all superseded and rejected for this system.",
+    "keyCharacteristics": [
+      "Light lilac ground (the icon tile); black \"night\" islands (the cat's head); white glossy surfaces (the eyes).",
+      "The icon's violet gradient on action buttons only, with a white inner highlight.",
+      "Soft radii: 16 / 24 / pill, matching the icon's rounded corners.",
+      "Shadows are always offset downward, blurred and tinted violet or indigo. They are never black.",
+      "Fredoka 600 for headings and the wordmark, Rubik for the interface, Geist Mono for SQL and numbers.",
+      "The cat is the living signature: it blinks, it watches and it reads."
+    ],
+    "rules": [
+      {
+        "name": "The Icon Mapping Rule",
+        "body": "Every colour role comes from a part of the icon: tile → ground, head → night, eyes → surfaces, base violet → action. A colour that cannot be traced to the icon does not belong in the system.",
+        "section": "colors"
+      },
+      {
+        "name": "The Night Island Rule",
+        "body": "Black appears only through the `.night` scope: the sidebar, the user's question bubble and the SQL block. Inside it, components keep using the same tokens (ink, surface, accent) and the scope swaps their values. Never hand-pick a dark colour for a component.",
+        "section": "colors"
+      },
+      {
+        "name": "The Fill-Not-Text Rule",
+        "body": "brand is for fills. Violet text uses accent (night-accent inside the night), because brand on the lilac ground falls just under 4.5:1 while accent measures 5.4:1.",
+        "section": "colors"
+      },
+      {
+        "name": "The No Stray Hex Rule",
+        "body": "Every literal colour in the CSS or components is a named token above. A new colour must be added to globals.css and here first, with its contrast checked (AA, 4.5:1).",
+        "section": "colors"
+      },
+      {
+        "name": "The Heavy Rounded Heading Rule",
+        "body": "Every Fredoka use is weight 600 with -0.01em tracking (`.font-display`). Do not use a lighter Fredoka, and never set running text in it.",
+        "section": "typography"
+      },
+      {
+        "name": "The Scale-Only Rule",
+        "body": "Sizes come only from the Tailwind scale (12, 14, 16, 18, 24, 36, 48, 60). Line heights are multiples of 4. No `text-[15px]`.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tinted Shadow Rule",
+        "body": "Shadows are always tinted violet or indigo and offset downward. Never use a black or neutral grey shadow.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Gloss Rule",
+        "body": "A white surface that floats on the sky gets the top hairline (inset 0 1px 0 gloss-hairline). This is the icon's shine and the reason the surfaces look like the cat's eyes.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** trace every colour back to the icon (tile, head, eyes, base violet) and name it in globals.css.",
+      "**Do** put dark pieces inside `.night` and keep using the ordinary tokens inside them.",
+      "**Do** give floating white surfaces the top gloss hairline and a violet-tinted, downward shadow.",
+      "**Do** keep spacing on the rule of 8 (4 only as a half step) and radii to 16 / 24 / pill.",
+      "**Do** use `.btn-brand` for the primary action and nowhere else as decoration.",
+      "**Do** quiet the sky once a conversation starts (blobs pause and fade to 0.2, the grid and pointer glow disappear), so nothing moves behind data.",
+      "**Do** keep entrances to an 8px rise out of a blur on `--ease-out`, and state changes to 150ms on `--ease`. Make every animation stop under reduced motion."
+    ],
+    "donts": [
+      "**Don't** use a black, neutral grey or untinted shadow.",
+      "**Don't** add a fourth radius, `rounded-lg`/`xl`/`2xl`, or a loose `[13px]` value (the 28% cat tile is the only exception).",
+      "**Don't** use brand as text colour on the lilac ground. Use accent.",
+      "**Don't** hand-pick a dark hex for a component. Use the night scope.",
+      "**Don't** let anything move because of scroll, or loop an animation behind the data after the conversation starts.",
+      "**Don't** use gradients or coloured glows inside window cards. Every shape in a window must carry information.",
+      "**Don't** bring back the dark charcoal theme or a dark neon look."
+    ]
+  }
+}

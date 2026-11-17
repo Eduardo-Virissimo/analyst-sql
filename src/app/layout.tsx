@@ -1,11 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono, Source_Serif_4 } from "next/font/google";
+import { Fredoka, Geist_Mono, Rubik } from "next/font/google";
 import "./globals.css";
 
-// Títulos em serifa; texto em sans neutra; marca e dados em mono.
-const heading = Source_Serif_4({ subsets: ["latin"], variable: "--font-heading" });
-const body = Inter({ subsets: ["latin"], variable: "--font-body" });
-const code = JetBrains_Mono({ subsets: ["latin"], variable: "--font-code" });
+// Títulos em Fredoka (arredondada e encorpada, como o gato do ícone); texto em Rubik (cantos levemente
+// arredondados, firme e legível em tamanho pequeno); busca (SQL) e números em Geist Mono.
+const heading = Fredoka({ subsets: ["latin"], variable: "--font-heading" });
+const body = Rubik({ subsets: ["latin"], variable: "--font-body" });
+const code = Geist_Mono({ subsets: ["latin"], variable: "--font-code" });
 
 export const metadata: Metadata = {
   title: "analyst-sql",
@@ -15,8 +16,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a0a0a",
-  colorScheme: "dark",
+  themeColor: "#f4efff",
+  colorScheme: "light",
 };
 
 export default function RootLayout({

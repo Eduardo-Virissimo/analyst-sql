@@ -11,9 +11,9 @@ import {
   BuildingIcon,
   CalendarIcon,
   CheckIcon,
+  ChevronIcon,
   ClockIcon,
   ContractIcon,
-  DatabaseIcon,
   HashIcon,
   IconTile,
   KeyIcon,
@@ -24,7 +24,6 @@ import {
   UsersIcon,
 } from "./Icons";
 import Modal from "./Modal";
-import PanelButton from "./PanelButton";
 import type { SchemaColumn, SchemaTable } from "@/lib/db/schema";
 import type { SchemaState } from "@/hooks/use-schema";
 import {
@@ -35,7 +34,6 @@ import {
   orderBySubject,
   shortColumnText,
   subjectText,
-  subjectsLabel,
 } from "@/lib/ui/friendly";
 
 // o ícone de cada assunto do banco de exemplo (assunto novo fica com o ícone padrão)
@@ -59,7 +57,7 @@ const TYPE_ICONS: Record<string, typeof TableIcon> = {
 // as cores dos três tipos de linha: chave, ligação e informação comum
 const TONE = {
   key: "bg-warn/15 text-warn",
-  link: "bg-brand-strong/40 text-accent",
+  link: "bg-brand/10 text-accent",
   field: "bg-surface-2 text-muted",
 };
 
@@ -116,10 +114,10 @@ function Subject({ table, titles }: SubjectProps) {
 
   return (
     <article className="card min-w-0 overflow-hidden">
-      <header className="flex h-20 items-center gap-4 border-b border-line bg-white/[0.04] px-4">
-        <IconTile icon={SUBJECT_ICONS[table.name] ?? TableIcon} size="size-10" tone="bg-brand-strong/40 text-accent" />
+      <header className="flex h-20 items-center gap-4 border-b border-line bg-surface-2/60 px-4">
+        <IconTile icon={SUBJECT_ICONS[table.name] ?? TableIcon} size="size-10" tone="bg-brand/10 text-accent" />
         <div className="min-w-0">
-          <h3 className="line-clamp-2 font-serif text-lg leading-6">{title}</h3>
+          <h3 className="line-clamp-2 text-balance font-display text-lg leading-6">{title}</h3>
           <p className="line-clamp-2 text-xs leading-4 text-muted">{description || fieldsLabel(columns.length)}</p>
         </div>
       </header>
@@ -155,11 +153,11 @@ function Subject({ table, titles }: SubjectProps) {
 // a legenda: ensina a ler o desenho, numa faixa só, com as mesmas formas e cores que aparecem nele
 function Legend() {
   const items = [
-    { icon: TableIcon, tone: "bg-brand-strong/40 text-accent", title: "Caixa", text: "Um assunto. No banco, chama-se tabela." },
+    { icon: TableIcon, tone: "bg-brand/10 text-accent", title: "Caixa", text: "Um assunto. No banco, chama-se tabela." },
     { icon: KeyIcon, tone: TONE.key, title: "Código", text: "Identifica cada registro. Nunca se repete." },
     { icon: LinkIcon, tone: TONE.link, title: "Ligação", text: "Aponta para o código de outro assunto." },
     { icon: TextIcon, tone: TONE.field, title: "Informação", text: "Um dado guardado: texto, número ou data." },
-    { icon: ArrowRightIcon, tone: "bg-brand-strong/40 text-accent", title: "1 → vários", text: "Um registro de um lado, vários do outro." },
+    { icon: ArrowRightIcon, tone: "bg-brand/10 text-accent", title: "1 → vários", text: "Um registro de um lado, vários do outro." },
   ];
   return (
     <ul className="mb-6 grid gap-4 rounded-control bg-sunken p-4 sm:grid-cols-2 lg:grid-cols-5" aria-label="Como ler o desenho">
@@ -179,10 +177,10 @@ function Legend() {
 interface DatabasePanelProps {
   state: SchemaState;
   open: boolean;
-  onOpenChange: (open: boolean) => void;
+  onClose: () => void;
 }
 
-export default function DatabasePanel({ state, open, onOpenChange }: DatabasePanelProps) {
+export default function DatabasePanel({ state, open, onClose }: DatabasePanelProps) {
   const ready = state.status === "ready" ? state.schema : null;
   const tables = ready ? orderBySubject(ready.tables) : [];
   const titles = new Map(tables.map((t) => [t.name, subjectText(t).title]));
@@ -192,20 +190,10 @@ export default function DatabasePanel({ state, open, onOpenChange }: DatabasePan
   const columns = tables.map(() => "minmax(0,1fr)").join(` ${GAP}px `);
 
   return (
-    <>
-      <PanelButton
-        icon={DatabaseIcon}
-        label={label}
-        badge={ready ? subjectsLabel(ready.tables.length) : undefined}
-        open={open}
-        controls="janela-dados"
-        onClick={() => onOpenChange(!open)}
-      />
-
       <Modal
         id="janela-dados"
         open={open}
-        onClose={() => onOpenChange(false)}
+        onClose={onClose}
         size="lg"
         title={label}
         intro="O que dá para consultar e como as informações se ligam."
@@ -213,9 +201,7 @@ export default function DatabasePanel({ state, open, onOpenChange }: DatabasePan
           ready && (
             <details className="group">
               <summary className="inline-flex min-h-8 cursor-pointer list-none items-center gap-2 hover:text-ink [&::-webkit-details-marker]:hidden">
-                <span className="transition-transform group-open:rotate-90" aria-hidden="true">
-                  ▸
-                </span>
+                <ChevronIcon className="size-4 transition-transform group-open:rotate-90" />
                 Nomes técnicos (para quem conhece bancos de dados)
               </summary>
               <div className="mt-2 grid gap-4 font-mono md:grid-cols-3">
@@ -237,7 +223,7 @@ export default function DatabasePanel({ state, open, onOpenChange }: DatabasePan
         {state.status === "loading" && (
           <div className="grid gap-8 md:grid-cols-3" role="status" aria-label="Carregando os dados">
             {[0, 1, 2].map((i) => (
-              <div key={i} className="pulse-dot h-80 rounded-card bg-surface-2" />
+              <div key={i} className="h-80 animate-pulse rounded-card bg-surface-2" />
             ))}
           </div>
         )}
@@ -265,6 +251,5 @@ export default function DatabasePanel({ state, open, onOpenChange }: DatabasePan
           </>
         )}
       </Modal>
-    </>
   );
 }

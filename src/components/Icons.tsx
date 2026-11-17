@@ -214,6 +214,32 @@ export const TableIcon = (props: IconProps) => (
   </svg>
 );
 
+export const SidebarIcon = (props: IconProps) => (
+  <svg {...base} {...props}>
+    <rect x="3.5" y="4.5" width="17" height="15" rx="2.5" />
+    <path d="M9.5 4.5v15" />
+  </svg>
+);
+
+export const EditIcon = (props: IconProps) => (
+  <svg {...base} {...props}>
+    <path d="M12 5H6.5A2.5 2.5 0 004 7.5v10A2.5 2.5 0 006.5 20h10a2.5 2.5 0 002.5-2.5V12" />
+    <path d="M17.6 3.9a1.9 1.9 0 012.7 2.7L12.5 14.4 9 15l.6-3.5 8-7.6z" />
+  </svg>
+);
+
+export const TrashIcon = (props: IconProps) => (
+  <svg {...base} {...props}>
+    <path d="M4.5 7h15M10 11v6M14 11v6M6.5 7l1 12a1.5 1.5 0 001.5 1.5h6a1.5 1.5 0 001.5-1.5l1-12M9.5 7V4.5h5V7" />
+  </svg>
+);
+
+export const RetryIcon = (props: IconProps) => (
+  <svg {...base} {...props}>
+    <path d="M4.5 12a7.5 7.5 0 0113-5.1L19.5 9M19.5 4.5V9H15M19.5 12a7.5 7.5 0 01-13 5.1L4.5 15M4.5 19.5V15H9" />
+  </svg>
+);
+
 /** Um ícone dentro de um quadradinho: marca visual de uma linha, de um cartão ou de uma legenda. */
 export function IconTile({
   icon: Icon,

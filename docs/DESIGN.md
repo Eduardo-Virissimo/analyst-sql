@@ -32,8 +32,10 @@ como `p-[13px]`. Se ficou apertado, suba um passo; se ficou largo, desça um. N�
   40 px é o mínimo para tocar com o dedo.
 - **Ícones:** 16 (`size-4`) no meio do texto, 20 (`size-5`) dentro de botões. O 20 é a única exceção da
   regra, porque é o tamanho em que os ícones são desenhados.
-- **Logo:** 32 (`size={32}`).
-- **Cabeçalho:** 72 px (botão de 40 + 16 em cima e embaixo). Por isso o painel do cabeçalho abre em `top-18`.
+- **Gato (marca):** 88 na tela inicial, 32 na barra lateral e nas respostas, 24 no topo do celular.
+- **Barra lateral:** 288 px (`w-72`). Linhas de 40 (`h-10`); topo de 64 (`h-16`), igual à faixa de cima da conversa.
+- **Faixa de cima da conversa:** 64 px (`h-16`): botão de 40 + 8 de cada lado.
+- **Coluna da conversa:** até 768 px (`max-w-3xl`), centralizada.
 
 ### Como alinhar
 
@@ -47,17 +49,17 @@ como `p-[13px]`. Se ficou apertado, suba um passo; se ficou largo, desça um. N�
 
 | Nome | Valor | Onde |
 |---|---:|---|
-| `rounded-control` | 8 px | Botões quadrados, abas, blocos de código, chips |
-| `rounded-card` | 16 px | Cartões, tabela, painéis, janela, campo de pergunta, bolha da pergunta |
-| `rounded-pill` | redondo | Botões redondos (enviar, fechar), selos |
+| `rounded-control` | 16 px | Botões, chips, linhas clicáveis, blocos de código, barras do gráfico |
+| `rounded-card` | 24 px | Cartões, tabela, painéis, janela, campo de pergunta, bolha da pergunta |
+| `rounded-pill` | redondo | Enviar, "Escolher uma por mim", selos e pontos de estado |
 
-**Peça dentro de peça:** o raio de dentro é o raio de fora **menos** o espaço entre as duas. Exemplo: as
-abas do resultado ficam num trilho `rounded-control` (8) com `p-1` (4), então cada aba usa
-`rounded-[calc(var(--r-control)-var(--space-1))]` (4). Se os dois raios forem iguais, a curva de dentro
+**Peça dentro de peça:** o raio de dentro é o raio de fora **menos** o espaço entre as duas. Exemplo:
+um trilho `rounded-control` (16) com `p-1` (4) teria peças de
+`rounded-[calc(var(--r-control)-var(--space-1))]` (12). Se os dois raios forem iguais, a curva de dentro
 parece "gorda" e o desenho fica torto.
 
 Não crie um quarto raio. Não use `rounded-lg`, `rounded-xl`, `rounded-2xl` nem valor solto
-(o logo, `rounded-[28%]`, é a única exceção: é desenho, não interface).
+(o gato da marca, com cantos de 28%, é a única exceção: é desenho, não interface).
 
 ## 3. Texto
 
@@ -67,25 +69,28 @@ Só os tamanhos da escala do Tailwind. Nada de `text-[15px]`.
 |---|---:|---|
 | `text-xs` | 12 | Selos, legendas, rodapés, marquinhas de tipo |
 | `text-sm` | 14 | Painéis, tabela, botões, SQL, etapas do andamento |
-| `text-base` | 16 | Campo de pergunta, bolha da pergunta, subtítulo |
-| `text-lg` | 18 | A resposta do assistente (o texto principal da tela) |
+| `text-base` | 16 | Campo de pergunta, bolha da pergunta, subtítulo e a resposta do assistente |
+| `text-2xl` | 24 | Título das janelas |
 | `text-4xl` / `text-5xl` | 36 / 48 | Título da tela inicial (celular / computador) |
+| `text-6xl` | 60 | O número grande da aba "Número" |
 
-Títulos em serifa (`font-serif`), texto em sans, marca e dados em mono.
-Altura de linha em múltiplo de 4: `leading-6` (24) no texto corrido, `leading-7` (28) na resposta.
+Saudação, títulos de janela e o número grande em Fredoka 600 (`font-display`); interface em Geist; marca, busca (SQL) e
+números de tabela e gráfico em Geist Mono. Altura de linha em múltiplo de 4: `leading-6` (24) no texto corrido,
+`leading-7` (28) na pergunta e na resposta.
 
 ## 4. O que a resposta mostra
 
 - **Enquanto espera:** as quatro etapas do agente, ao vivo (escrever a busca, conferir, consultar, responder).
   Os nomes ficam em `stepLabel` (`lib/ui/friendly.ts`).
-- **Um número só** (uma linha, uma coluna numérica): número grande em serifa, aba "Número".
+- **Um número só** (uma linha, uma coluna numérica): número grande em Fredoka, aba "Número".
 - **Rótulo + valor** (2 a 30 linhas): barras. O rótulo nunca é cortado se houver espaço.
 - **O resto:** tabela. A busca (SQL) é sempre a última aba.
-- **Rodapé do cartão:** quanto tempo levou e, se houve correção, em qual tentativa.
+- **Embaixo da resposta:** Copiar, Perguntar de novo e quanto tempo levou (e, se houve correção, em qual tentativa).
+- **Abas:** sublinhadas (fio de 2 px roxo na ativa), no topo do cartão; à direita, quantos registros vieram.
 
 ## 5. Janelas
 
-As quatro janelas (Perguntas prontas, Ajuda, Dados, Sobre) usam a mesma moldura, `Modal`: título em serifa,
+As quatro janelas (Perguntas prontas, Ajuda, Dados, Sobre) usam a mesma moldura, `Modal`: título em Fredoka,
 uma frase de introdução, botão de fechar, corpo que rola e rodapé opcional. Três larguras: `sm` (texto),
 `md` (listas e cartões), `lg` (o diagrama do banco).
 
@@ -95,10 +100,10 @@ empilhados, a rolagem é aceita.)
 
 Dentro delas, o conteúdo se separa em **cartões com forma**, não em texto corrido:
 
-- **Cartão** (`.card`): uma faixa de título (ícone no quadradinho + título em serifa, fundo `bg-white/[0.04]`,
+- **Cartão** (`.card`): uma faixa de título (ícone no quadradinho + título em Fredoka, fundo `bg-surface-2/60`,
   fio embaixo) e linhas separadas por fios (`divide-y divide-line/60`). No máximo **dois níveis**: cartão e o
   que está dentro dele. Nunca cartão dentro de cartão.
-- **Ícone no quadradinho** (`IconTile`): 32 px, raio 8. A cor diz o papel: roxo = assunto ou ligação,
+- **Ícone no quadradinho** (`IconTile`): 32 px, raio 16. A cor diz o papel: roxo = assunto ou ligação,
   amarelo = código (chave), verde = pode / seguro, vermelho = não faz, cinza = informação comum.
   A cor de destaque não vai em tudo: só onde sinaliza alguma coisa.
 - **Pergunta clicável**: sempre `QuestionRow` (ícone opcional, texto, selo opcional e seta), igual em toda parte.
@@ -120,10 +125,39 @@ Toda forma precisa dizer alguma coisa.
 
 ## 6. Cor, fundo e movimento
 
-Continuam valendo as regras do `CLAUDE.md` (gradiente, cores da marca, contraste AA 4,5:1).
-Movimento: 150 ms (`--duration`) para estados, entradas sobem 8 px. O fundo se mexe de leve (manchas que
-derivam, uma luz que atravessa a tela e o desenho que flutua), em voltas de 18 a 30 s e só com `transform`.
-Nada pisca. Com "reduzir movimento" ligado, nada anda.
+Tudo sai do ícone do gato (`docs/img/cat-icon.png`): o **quadrado lilás** é o fundo (tema claro), a **cabeça preta**
+é a "noite" (barra lateral, a bolha da pergunta e o bloco da busca, com a classe `.night`), e os **olhos brancos** são as
+superfícies (cartões e campo de pergunta brancos). O violeta da base do ícone é a cor de ação.
+
+| Token | Valor | Onde |
+|---|---|---|
+| `bg` | #F4EFFF | Fundo (o céu por cima: #FBF8FF → #F1EAFF → #DDD0FF) |
+| `sidebar` / `.night` | #0E0B14 | A cabeça do gato: barra lateral, bolha da pergunta, bloco da busca (SQL) |
+| `surface` / `surface-2` | #FFFFFF / #EFE8FF | Cartões, campo, janelas / item ativo, selos, hover |
+| `ink` / `muted` / `faint` | #14101C / #4F4862 / #645D77 | Texto / texto de apoio / legendas e placeholder |
+| `brand` | #7349F8 | Preenchimento: enviar, etapa em andamento, barra maior, aba ativa (botões com o degradê `.btn-brand`) |
+| `lilac` | #CDBCFD | O lilás do ícone: as outras barras do gráfico |
+| `accent` | #6A3CF5 (na noite, #C4B0FF) | Texto e ícones em destaque, links |
+| `ok` / `warn` / `danger-ink` | verde / âmbar / vermelho escuros | Seguro, código (chave), erro (na noite, versões claras) |
+
+- **Fonte:** títulos e o nome "analyst-sql" em Fredoka 600 (arredondada e encorpada, como o gato), texto em Rubik
+  (cantos levemente arredondados, firme em tamanho pequeno), busca (SQL) e números em Geist Mono.
+- **Sombras:** sempre tingidas de violeta e deslocadas para baixo, com um fio branco no alto do cartão (o brilho do
+  ícone). Nada de sombra preta.
+- **Fundo:** um céu (`.sky`) atrás da área da conversa: o degradê do ícone, manchas de luz (violeta, lilás e um brilho
+  branco) que orbitam em voltas de 28 a 40 s, uma grade de pontos fina e, na tela inicial, um brilho que segue o mouse.
+  Quando a conversa começa, as manchas param e esmaecem, para nada se mexer atrás dos dados.
+- **O gato:** a marca (`LogoMark`) e o favicon. Os olhos piscam a cada 6 s, seguem o mouse na tela inicial e, enquanto
+  o agente trabalha, leem de um lado para o outro.
+- **Movimento:** estados em 150 ms (`--duration`). Entradas sobem 8 px saindo de um leve desfoque (`.fade-in`,
+  `.enter`), com desaceleração exponencial (`--ease-out`).
+- **Enquanto o agente trabalha:** os olhos do gato leem de um lado para o outro, a linha do tempo das etapas se
+  preenche de violeta, com um cronômetro, e uma luz percorre a borda do campo (`.composer-live`).
+- **Quando a resposta chega:** as palavras aparecem uma depois da outra (`.word`, todas em até 600 ms), o cartão de
+  dados se desdobra (`.unfold`, 500 ms) e as barras crescem (`.grow`, 600 ms, 40 ms entre uma e outra); o número
+  grande conta de 0 até o valor. Respostas que voltam do histórico aparecem prontas.
+- **Janelas:** abrem crescendo de 96% com o fundo desfocando (300 ms) e fecham mais rápido (200 ms).
+- Nada pisca e nada se move por causa da rolagem. Com "reduzir movimento" ligado, nada anda.
 
 ## Checklist antes de terminar uma mudança na tela
 

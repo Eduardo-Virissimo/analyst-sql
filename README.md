@@ -7,27 +7,33 @@ precisar saber SQL.
 Projeto do programa Futures (Softplan). Feito com Next.js, React, TypeScript, Tailwind e MySQL, e uma IA (Gemini ou Claude)
 para escrever as buscas.
 
-![Tela inicial: o campo de pergunta, os botões Perguntas prontas e Ajuda e três exemplos para começar](docs/img/home.png)
+![Tela inicial: o gato do analyst-sql, a saudação, o campo de pergunta e três exemplos para começar](docs/img/home.png)
 
 ## O que aparece na tela
 
+O visual inteiro sai do ícone do gato (`docs/img/cat-icon.png`): fundo lilás, as partes pretas como a cabeça do gato e
+cartões brancos como os olhos. Na barra lateral ficam a **Nova conversa**, os atalhos e o **histórico de conversas**
+(guardado só no navegador).
+
 Enquanto trabalha, o assistente mostra **em que etapa está** (escrevendo a busca, conferindo se é segura, consultando os
-dados, escrevendo a resposta). Se a primeira busca falhar e ele precisar corrigir, isso também aparece.
+dados, escrevendo a resposta), numa linha do tempo com cronômetro, e o gato "lê" os dados com os olhos. Se a primeira busca
+falhar e ele precisar corrigir, isso também aparece.
 
 ![Andamento da resposta, etapa por etapa](docs/img/progresso.png)
 
-A resposta vem em português, com o resultado em três abas: **Gráfico**, **Tabela** e **Busca (SQL)**, a busca exata que
-rodou no banco, para quem quiser conferir. Embaixo fica quanto tempo levou.
+A resposta vem em português, com o resultado em abas: **Número**, **Gráfico**, **Tabela** e **Busca (SQL)**, a busca exata
+que rodou no banco, para quem quiser conferir. Embaixo, **Como cheguei aqui** traduz a busca em passos simples ("Olhou
+setores e colaboradores → Contou → Separou em grupos"), e **Continue perguntando** sugere perguntas do mesmo assunto.
 
 ![Resposta com gráfico de barras dos colaboradores por setor](docs/img/resultado.png)
 
-O botão **Dados de RH**, no cabeçalho, abre um mapa do que dá para consultar: cada assunto, suas informações e como
-eles se ligam, em linguagem simples (os nomes técnicos ficam num trecho recolhido, para quem conhece bancos de dados).
+O atalho **Dados de RH** abre um mapa do que dá para consultar: cada assunto, suas informações e como eles se ligam, em
+linguagem simples (os nomes técnicos ficam num trecho recolhido, para quem conhece bancos de dados).
 
 ![Janela Dados de RH com os três assuntos e suas ligações](docs/img/dados.png)
 
 Também há **Perguntas prontas** (exemplos por assunto, para clicar), **Ajuda** (como perguntar bem, o que ele não faz e
-as palavras que aparecem na tela), **Sobre** (o que é, para que serve e como usar com segurança) e **Nova conversa**.
+as palavras que aparecem na tela) e **Sobre** (o que é, para que serve e como usar com segurança).
 
 ## Como funciona
 

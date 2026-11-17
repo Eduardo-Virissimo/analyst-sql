@@ -29,8 +29,8 @@ export default function SqlBlock({ sql }: { sql: string }) {
   const tokens = tokenizeSql(formatSql(sql));
 
   return (
-    <div className="relative">
-      <pre className="scrollbar overflow-x-auto rounded-control bg-sunken p-4 pr-12 font-mono text-sm leading-6">
+    <div className="night relative">
+      <pre className="scrollbar overflow-x-auto rounded-control bg-bg p-4 pr-12 font-mono text-sm leading-6">
         <code>
           {tokens.map((token, i) => (
             <span key={i} className={KIND_CLASS[token.kind]}>
@@ -43,7 +43,7 @@ export default function SqlBlock({ sql }: { sql: string }) {
         type="button"
         onClick={copyToClipboard}
         aria-label={copied ? "SQL copiado" : "Copiar SQL"}
-        className="press absolute right-2 top-2 inline-flex size-8 items-center justify-center rounded-control text-muted hover:bg-line/60 hover:text-ink"
+        className="press absolute right-2 top-2 inline-flex size-8 items-center justify-center rounded-control text-muted hover:bg-surface-2 hover:text-ink"
       >
         {copied ? <CheckIcon className="size-4 text-ok" /> : <CopyIcon className="size-4" />}
       </button>

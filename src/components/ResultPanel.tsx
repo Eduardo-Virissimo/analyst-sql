@@ -1,13 +1,13 @@
 "use client";
 
-// Os dados da resposta, num cartão discreto: número grande (quando a resposta é um número só),
-// gráfico (quando faz sentido), tabela e SQL. Embaixo, quanto tempo a resposta levou.
-import { useState } from "react";
+// Os dados da resposta, num cartão: número grande (quando a resposta é um número só), gráfico (quando faz
+// sentido), tabela e a busca (SQL). As abas ficam no topo; a busca é sempre a última.
+import { useEffect, useState } from "react";
 import BarChart from "./BarChart";
 import ResultTable from "./ResultTable";
 import SqlBlock from "./SqlBlock";
 import { detectChart, detectSingleValue } from "@/lib/ui/chart";
-import { answerMeta, columnLabel } from "@/lib/ui/friendly";
+import { columnLabel } from "@/lib/ui/friendly";
 import type { AgentResult } from "@/lib/types";
 
 type Tab = "number" | "chart" | "table" | "sql";
@@ -20,7 +20,40 @@ const EXPLANATION: Record<Tab, string> = {
   sql: "A busca que o assistente fez nos dados, escrita em SQL (a língua dos bancos de dados). Você não precisa entender: serve para conferir ou repetir a busca.",
 };
 
-export default function ResultPanel({ result }: { result: AgentResult }) {
+const isStill = (target: number) =>
+  !Number.isFinite(target) || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/** O número sobe de 0 até o valor em menos de um segundo (parado, com "reduzir movimento"). */
+function useCountUp(target: number, delay = 0): number {
+  // a resposta só aparece no navegador (nunca vem pronta do servidor), então dá para olhar a janela aqui
+  const [value, setValue] = useState(() => (isStill(target) ? target : 0));
+  useEffect(() => {
+    if (isStill(target)) return;
+    const start = performance.now() + delay;
+    let frame = requestAnimationFrame(function tick(now) {
+      const t = Math.min(Math.max(now - start, 0) / 700, 1);
+      const eased = 1 - Math.pow(1 - t, 4);
+      setValue(Number.isInteger(target) ? Math.round(target * eased) : target * eased);
+      if (t < 1) frame = requestAnimationFrame(tick);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [target, delay]);
+  return value;
+}
+
+function BigNumber({ value, label, delay }: { value: number; label: string; delay: number }) {
+  const shown = useCountUp(value, delay);
+  return (
+    <p className="py-4">
+      <span className="block font-display text-6xl leading-none tracking-tight text-ink tabular-nums">
+        {shown.toLocaleString("pt-BR")}
+      </span>
+      <span className="mt-2 block text-sm text-muted">{columnLabel(label)}</span>
+    </p>
+  );
+}
+
+export default function ResultPanel({ result, delay = 0 }: { result: AgentResult; /** ms até o cartão se desdobrar */ delay?: number }) {
   const single = detectSingleValue(result.rows);
   const chart = detectChart(result.rows);
 
@@ -34,46 +67,35 @@ export default function ResultPanel({ result }: { result: AgentResult }) {
   const active = selected ?? tabs[0].id;
 
   return (
-    <div className="overflow-hidden rounded-card border border-line bg-surface">
-      <div className="flex items-center justify-between gap-4 px-4 pt-4">
-        <div role="tablist" aria-label="Formato dos dados" className="flex rounded-control bg-sunken p-1">
+    <div className="unfold overflow-hidden rounded-card border border-line bg-surface shadow-card" style={{ animationDelay: `${delay}ms` }}>
+      <div className="flex items-center justify-between gap-4 border-b border-line px-4">
+        <div role="tablist" aria-label="Formato dos dados" className="scrollbar -mb-px flex overflow-x-auto">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               role="tab"
               aria-selected={tab.id === active}
               onClick={() => setSelected(tab.id)}
-              className={`press min-h-8 rounded-[calc(var(--r-control)-var(--space-1))] px-4 text-sm ${tab.id === active ? "bg-surface-2 text-ink shadow-sm" : "text-muted hover:text-ink"}`}
+              className={`press h-12 shrink-0 border-b-2 px-2 text-sm sm:px-4 ${tab.id === active ? "border-brand text-ink" : "border-transparent text-muted hover:text-ink"}`}
             >
               {tab.label}
             </button>
           ))}
         </div>
-        <span className="text-xs text-muted">
+        <span className="hidden shrink-0 text-xs text-faint sm:inline">
           {result.rows.length} {result.rows.length === 1 ? "registro" : "registros"}
         </span>
       </div>
 
-      <div role="tabpanel" className="p-4">
+      <div role="tabpanel" key={active} className="fade-in p-4">
         <p className="mb-4 text-sm text-muted">{EXPLANATION[active]}</p>
-        {active === "number" && single && (
-          <p className="py-4">
-            <span className="block font-serif text-6xl leading-none tracking-tight text-accent tabular-nums">
-              {single.value.toLocaleString("pt-BR")}
-            </span>
-            <span className="mt-2 block text-sm text-muted">{columnLabel(single.label)}</span>
-          </p>
-        )}
+        {active === "number" && single && <BigNumber value={single.value} label={single.label} delay={selected ? 0 : delay} />}
         {active === "chart" && chart && (
-          <BarChart rows={result.rows} labelColumn={chart.labelColumn} valueColumn={chart.valueColumn} />
+          <BarChart rows={result.rows} labelColumn={chart.labelColumn} valueColumn={chart.valueColumn} delay={selected ? 0 : delay} />
         )}
         {active === "table" && <ResultTable rows={result.rows} />}
         {active === "sql" && result.sql && <SqlBlock sql={result.sql} />}
       </div>
-
-      <p className="border-t border-line/60 px-4 py-2 text-xs text-muted">
-        {answerMeta(result.durationMs, result.attempts.length)}
-      </p>
     </div>
   );
 }

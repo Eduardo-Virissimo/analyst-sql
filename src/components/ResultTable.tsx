@@ -26,13 +26,13 @@ export default function ResultTable({ rows }: { rows: Row[] }) {
   return (
     <div className="scrollbar -mx-4 -mb-4 max-h-96 overflow-auto border-t border-line">
       <table className="w-full border-collapse text-sm">
-        <thead className="sticky top-0 bg-popover">
+        <thead className="sticky top-0 bg-surface">
           <tr>
             {columns.map((column) => (
               <th
                 key={column}
                 scope="col"
-                className={`border-b border-line px-4 py-2 text-xs font-medium text-muted ${numericColumns.has(column) ? "text-right" : "text-left"}`}
+                className={`border-b border-line px-4 py-2 text-xs font-medium text-faint ${numericColumns.has(column) ? "text-right" : "text-left"}`}
               >
                 {columnLabel(column)}
               </th>
@@ -41,11 +41,11 @@ export default function ResultTable({ rows }: { rows: Row[] }) {
         </thead>
         <tbody>
           {rows.map((row, i) => (
-            <tr key={i} className="border-b border-line/60 last:border-0">
+            <tr key={i} className="border-b border-line last:border-0 hover:bg-surface-2/60">
               {columns.map((column) => (
                 <td
                   key={column}
-                  className={`px-4 py-2 ${numericColumns.has(column) ? "text-right tabular-nums" : ""}`}
+                  className={`px-4 py-2 ${numericColumns.has(column) ? "text-right font-mono tabular-nums" : ""}`}
                 >
                   {formatValue(row[column])}
                 </td>
